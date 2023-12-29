@@ -81,8 +81,13 @@ struct {
 	int maxScoreUnits;
 } distanceMeter;
 
-void distanceMeterInit() {
-	distanceMeter.x = 500;
+void distanceMeterInit(int w);
+void distanceMeterCalcXPos(int w);
+void distanceMeterDraw(int digitPos, int value, bool opt_highscore);
+int distanceMeterGetActualDistance(int distance);
+
+void distanceMeterInit(int w) {
+	distanceMeter.x = 0;
 	distanceMeter.y = 5;
 	distanceMeter.currentDistance = 0;
 	distanceMeter.maxScore = 0;
@@ -93,6 +98,15 @@ void distanceMeterInit() {
 	distanceMeter.invertTrigger = false;
 	distanceMeter.maxScoreUnits = DM_MAX_DISTANCE_UNITS;
 	// init();
+	distanceMeterCalcXPos(w);
+	for (int i = 0; i < distanceMeter.maxScoreUnits; i++) {
+		distanceMeterDraw(i, 0, false);
+	}
+	distanceMeter.maxScore = (int)pow(10, distanceMeter.maxScoreUnits) - 1;
+}
+
+void distanceMeterCalcXPos(int w) {
+	distanceMeter.x = w - (DM_DEST_WIDTH * (distanceMeter.maxScoreUnits + 1));
 }
 
 void distanceMeterDraw(int digitPos, int value, bool opt_highscore) {
@@ -115,6 +129,12 @@ void distanceMeterDraw(int digitPos, int value, bool opt_highscore) {
 		false
 	);
 }
+
+int distanceMeterGetActualDistance(int distance) {
+	return distance ? (int)round(distance * DM_COEFFICIENT) : 0;
+}
+
+
 
 struct {
 	int width;
@@ -143,6 +163,10 @@ struct {
 	// imagesLoaded
 } runner; // singletone
 
+void runnerInit();
+void runnerAdjustDimensions();
+void runnerLoadImages();
+
 void blitAtlasImage(int atlasX, int atlasY, int destX, int destY, int w, int h, bool center) {
 	SDL_Rect dest = { destX, destY, w, h }, src = { atlasX, atlasY, w, h };
 	if (center) {
@@ -150,17 +174,6 @@ void blitAtlasImage(int atlasX, int atlasY, int destX, int destY, int w, int h, 
 		dest.y -= (dest.h / 2);
 	}
 	SDL_RenderCopy(renderer, runner.spriteAtlas, &src, &dest);
-}
-
-void runnerLoadImages() {
-	runner.spriteAtlas = IMG_LoadTexture(renderer, "assets/sprites100.png");
-	//int img_w, img_h;
-	//SDL_QueryTexture(runner.spriteAtlas, NULL, NULL, &img_w, &img_h); // get the width and height of the texture
-}
-
-void runnerAdjustDimensions() {
-	runner.width = DEFAULT_WIDTH;
-	// distance meter ...
 }
 
 void runnerInit() {
@@ -179,6 +192,21 @@ void runnerInit() {
 	runner.playCount = 0;
 	runnerLoadImages();
 	runnerAdjustDimensions();
+	// fill canvas 
+	// horizon create
+	distanceMeterInit(runner.width);
+}
+
+
+void runnerLoadImages() {
+	runner.spriteAtlas = IMG_LoadTexture(renderer, "assets/sprites100.png");
+	//int img_w, img_h;
+	//SDL_QueryTexture(runner.spriteAtlas, NULL, NULL, &img_w, &img_h); // get the width and height of the texture
+}
+
+void runnerAdjustDimensions() {
+	runner.width = DEFAULT_WIDTH;
+	// distance meter ...
 }
 
 int main(int argc, char* args[]) {
@@ -204,9 +232,12 @@ int main(int argc, char* args[]) {
 
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
+	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_RenderClear(renderer);
+
 	runnerInit();
-	
-	distanceMeterInit();//tmp here
+
+	SDL_RenderPresent(renderer);
 
 	//Hack to get window to stay up
 	SDL_Event e;
@@ -221,14 +252,15 @@ int main(int argc, char* args[]) {
 				break;
 			}
 		}
+		/*
 		// clear the screen
 		SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 		SDL_RenderClear(renderer);
 		// copy the texture to the rendering context
-		/*SDL_Rect rect = { .x = 0, .y = 100, .w = 25, .h = 50 };
-		SDL_Rect rect2 = { .x = 332, .y = 2, .w = 25, .h = 50 };
-		SDL_RenderCopy(renderer, runner.spriteAtlas, &rect2, &rect);
-		*/
+		//SDL_Rect rect = { .x = 0, .y = 100, .w = 25, .h = 50 };
+		//SDL_Rect rect2 = { .x = 332, .y = 2, .w = 25, .h = 50 };
+		//SDL_RenderCopy(renderer, runner.spriteAtlas, &rect2, &rect);
+		//
 		blitAtlasImage(332, 2, 50, 100, 25, 50, false);
 		blitAtlasImage(332, 2, 50, 100, 25, 50, true);
 		
@@ -244,6 +276,8 @@ int main(int argc, char* args[]) {
 		// flip the backbuffer
 		// this means that everything that we prepared behind the screens is actually shown
 		SDL_RenderPresent(renderer);
+		*/
+		
 	}
 
 	//Destroy window
