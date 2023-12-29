@@ -82,7 +82,7 @@ struct {
 } distanceMeter;
 
 void distanceMeterInit() {
-	distanceMeter.x = 0;
+	distanceMeter.x = 500;
 	distanceMeter.y = 5;
 	distanceMeter.currentDistance = 0;
 	distanceMeter.maxScore = 0;
@@ -95,8 +95,25 @@ void distanceMeterInit() {
 	// init();
 }
 
-void distanceMeterDraw(int digitPos, int value/*, opt_highscore*/) {
-	blitAtlasImage(DM_WIDTH*value + ATLAS_TEXT_SPRITE_X, 0 + ATLAS_TEXT_SPRITE_Y, digitPos*DM_DEST_WIDTH, distanceMeter.y, DM_WIDTH, DM_HEIGHT, false);
+void distanceMeterDraw(int digitPos, int value, bool opt_highscore) {
+	int dx, dy;
+	if (opt_highscore) {
+		dx = distanceMeter.x - (distanceMeter.maxScoreUnits * 2) * DM_WIDTH;
+		dy = distanceMeter.y;
+	}
+	else {
+		dx = distanceMeter.x;
+		dy = distanceMeter.y;
+	}
+	blitAtlasImage(
+		DM_WIDTH*value + ATLAS_TEXT_SPRITE_X,
+		0 + ATLAS_TEXT_SPRITE_Y,
+		digitPos*DM_DEST_WIDTH + dx,
+		distanceMeter.y + dy,
+		DM_WIDTH,
+		DM_HEIGHT,
+		false
+	);
 }
 
 struct {
@@ -215,8 +232,13 @@ int main(int argc, char* args[]) {
 		blitAtlasImage(332, 2, 50, 100, 25, 50, false);
 		blitAtlasImage(332, 2, 50, 100, 25, 50, true);
 		
-		for (int i = 0; i < 37; i++) {
-			distanceMeterDraw(i, i % 10);
+		// score
+		for (int i = 0; i <= 3; i++) {
+			distanceMeterDraw(i, i % 10, false);
+		}
+		// high score:
+		for (int i = 3; i >= 0; i--) {
+			distanceMeterDraw(3-i, i % 10, true);
 		}
 		
 		// flip the backbuffer
