@@ -4,7 +4,13 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
+#include <time.h>
 #include "ulist.h"
+
+int getRandomNumber(int _min, int _max) {
+	return rand() % (_max - _min + 1) + _min;
+}
 
 #define DEFAULT_WIDTH 600;
 #define FPS 60
@@ -39,6 +45,13 @@
 #define DM_WIDTH 10
 #define DM_HEIGHT 13
 #define DM_DEST_WIDTH 11
+
+#define CLOUD_WIDTH 46
+#define CLOUD_HEIGHT 14
+#define CLOUD_MAX_GAP 400
+#define CLOUD_MAX_SKY_LEVEL 30
+#define CLOUD_MIN_GAP 100
+#define CLOUD_MIN_SKY_LEVEL 71
 
 #define ATLAS_CACTUS_LARGE_X 332
 #define ATLAS_CACTUS_LARGE_Y 2
@@ -198,6 +211,32 @@ void runnerInit() {
 }
 
 
+typedef struct {
+	int width;
+	int xPos;
+	int yPos;
+	bool remove;
+	int cloudGap;
+} Cloud;
+
+void cloudInit();
+void cloudDraw(Cloud* cloud);
+
+void cloudInit(Cloud *cloud, int w) {
+	cloud->width = w;
+	cloud->xPos = w;
+	cloud->yPos = 0;
+	cloud->remove = false;
+	cloud->cloudGap = getRandomNumber(CLOUD_MIN_GAP, CLOUD_MAX_GAP);
+	
+	cloud->yPos = getRandomNumber(CLOUD_MAX_SKY_LEVEL, CLOUD_MIN_SKY_LEVEL); // TODO why swapped
+	cloudDraw(cloud);
+}
+
+void cloudDraw(Cloud *cloud) {
+	//TODO
+}
+
 void runnerLoadImages() {
 	runner.spriteAtlas = IMG_LoadTexture(renderer, "assets/sprites100.png");
 	//int img_w, img_h;
@@ -210,21 +249,19 @@ void runnerAdjustDimensions() {
 }
 
 int main(int argc, char* args[]) {
+	srand(time(NULL)); // Seed the random number generator
+
 	//ulist_test();
 
-	//The window we'll be rendering to
-	SDL_Window* window = NULL;
+	// The surface contained by the window
+	//SDL_Surface* screenSurface = NULL;
 
-	//The surface contained by the window
-	SDL_Surface* screenSurface = NULL;
-
-	//Initialize SDL
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
 		return -1;
 	}
 	//Create window
-	window = SDL_CreateWindow("C Rex Runner", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1300, 480, SDL_WINDOW_SHOWN);
+	SDL_Window *window = SDL_CreateWindow("C Rex Runner", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1300, 480, SDL_WINDOW_SHOWN);
 	if (window == NULL) {
 		printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 		return -1;
