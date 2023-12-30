@@ -60,7 +60,7 @@ int getRandomNumber(int _min, int _max) {
 #define ATLAS_CLOUD_X 86
 #define ATLAS_CLOUD_Y 2
 #define ATLAS_HORIZON_X 2
-#define ATLAS_HORIZON 54
+#define ATLAS_HORIZON_Y 54
 #define ATLAS_MOON_X 484
 #define ATLAS_MOON_Y 2
 #define ATLAS_PTERODACTYL_X 134
@@ -98,6 +98,11 @@ void distanceMeterInit(int w);
 void distanceMeterCalcXPos(int w);
 void distanceMeterDraw(int digitPos, int value, bool opt_highscore);
 int distanceMeterGetActualDistance(int distance);
+// TODO:
+// update
+// drawHightScore
+// setHightScore
+// reset
 
 void distanceMeterInit(int w) {
 	distanceMeter.x = 0;
@@ -190,6 +195,43 @@ void cloudUpdate(Cloud *cloud, double speed) {
 
 bool cloudIsVisible(const Cloud *cloud) {
 	return cloud->xPos + CLOUD_WIDTH > 0;
+}
+
+#define HORIZON_LINE_WIDTH 600
+#define HORIZON_LINE_HEIGHT 12
+#define HORIZON_LINE_YPOS 127
+struct {
+	int width;
+	int height;
+	int sourceXPos[2];
+	int xPos[2];
+	int yPos;
+	double bumpThreshold;
+} horizonLine;
+
+void horizonLineInit();
+void horizonLineDraw();
+// TODO:
+// getRandomType
+// updateXPos
+// update
+// reset
+
+void horizonLineInit() {
+	horizonLine.width = HORIZON_LINE_WIDTH;
+	horizonLine.height = HORIZON_LINE_HEIGHT;
+	horizonLine.sourceXPos[0] = ATLAS_HORIZON_X;
+	horizonLine.sourceXPos[1] = ATLAS_HORIZON_Y;
+	horizonLine.bumpThreshold = 0.5;
+	horizonLine.xPos[0] = 0;
+	horizonLine.xPos[1] = horizonLine.width;
+	horizonLine.yPos = HORIZON_LINE_YPOS;
+	horizonLineDraw();
+}
+
+void horizonLineDraw() {
+	blitAtlasImage(horizonLine.sourceXPos[0], ATLAS_HORIZON_Y, horizonLine.xPos[0], horizonLine.yPos, horizonLine.width, horizonLine.height, false);
+	blitAtlasImage(horizonLine.sourceXPos[1], ATLAS_HORIZON_Y, horizonLine.xPos[1], horizonLine.yPos, horizonLine.width, horizonLine.height, false);
 }
 
 
@@ -292,7 +334,8 @@ int main(int argc, char* args[]) {
 
 	runnerInit();
 
-	// just test
+	//// just test
+	//horizonLineInit();
 	// Cloud c;
 	// for (int i = 0; i < 15; i++) {
 	// 	cloudInit(&c, runner.width);
