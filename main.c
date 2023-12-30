@@ -148,6 +148,50 @@ int distanceMeterGetActualDistance(int distance) {
 }
 
 
+typedef struct {
+	int width;
+	int xPos;
+	int yPos;
+	bool remove;
+	int cloudGap;
+} Cloud;
+
+void cloudInit();
+void cloudDraw(Cloud* cloud);
+void cloudUpdate(Cloud* cloud, double speed);
+bool cloudIsVisible(const Cloud* cloud);
+
+void cloudInit(Cloud *cloud, int w) {
+	cloud->width = w;
+	cloud->xPos = w;
+	cloud->yPos = 0;
+	cloud->remove = false;
+	cloud->cloudGap = getRandomNumber(CLOUD_MIN_GAP, CLOUD_MAX_GAP);
+	
+	cloud->yPos = getRandomNumber(CLOUD_MAX_SKY_LEVEL, CLOUD_MIN_SKY_LEVEL); // TODO why swapped
+	cloudDraw(cloud);
+}
+
+void cloudDraw(const Cloud *cloud) {
+	blitAtlasImage(ATLAS_CLOUD_X, ATLAS_CLOUD_Y, cloud->xPos, cloud->yPos, CLOUD_WIDTH, CLOUD_HEIGHT, false);
+}
+
+void cloudUpdate(Cloud *cloud, double speed) {
+	if (!cloud->remove) {
+		cloud->xPos -= (int)ceil(speed);
+		cloudDraw(cloud);
+
+		// Mark as removeable if no longer in the canvas.
+		if (!cloudIsVisible(cloud)) {
+			cloud->remove = true;
+		}
+	}
+}
+
+bool cloudIsVisible(const Cloud *cloud) {
+	return cloud->xPos + CLOUD_WIDTH > 0;
+}
+
 
 struct {
 	int width;
@@ -160,7 +204,7 @@ struct {
 	int runningTime;
 	int msPerFrame;
 	int currentSpeed;
-	Ulist *obstacles;
+	Ulist* obstacles;
 	bool activated;
 	bool playing;
 	bool crashed;
@@ -210,33 +254,6 @@ void runnerInit() {
 	distanceMeterInit(runner.width);
 }
 
-
-typedef struct {
-	int width;
-	int xPos;
-	int yPos;
-	bool remove;
-	int cloudGap;
-} Cloud;
-
-void cloudInit();
-void cloudDraw(Cloud* cloud);
-
-void cloudInit(Cloud *cloud, int w) {
-	cloud->width = w;
-	cloud->xPos = w;
-	cloud->yPos = 0;
-	cloud->remove = false;
-	cloud->cloudGap = getRandomNumber(CLOUD_MIN_GAP, CLOUD_MAX_GAP);
-	
-	cloud->yPos = getRandomNumber(CLOUD_MAX_SKY_LEVEL, CLOUD_MIN_SKY_LEVEL); // TODO why swapped
-	cloudDraw(cloud);
-}
-
-void cloudDraw(Cloud *cloud) {
-	//TODO
-}
-
 void runnerLoadImages() {
 	runner.spriteAtlas = IMG_LoadTexture(renderer, "assets/sprites100.png");
 	//int img_w, img_h;
@@ -247,6 +264,7 @@ void runnerAdjustDimensions() {
 	runner.width = DEFAULT_WIDTH;
 	// distance meter ...
 }
+
 
 int main(int argc, char* args[]) {
 	srand(time(NULL)); // Seed the random number generator
@@ -269,10 +287,18 @@ int main(int argc, char* args[]) {
 
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_SetRenderDrawColor(renderer, 0xF7, 0xF7, 0xF7, 0xFF);
 	SDL_RenderClear(renderer);
 
 	runnerInit();
+
+	// just test
+	// Cloud c;
+	// for (int i = 0; i < 15; i++) {
+	// 	cloudInit(&c, runner.width);
+	// 	c.xPos = i * 60;
+	// 	cloudDraw(&c);
+	// }
 
 	SDL_RenderPresent(renderer);
 
