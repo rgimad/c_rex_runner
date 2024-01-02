@@ -313,11 +313,10 @@ struct {
 
 void horizonLineInit();
 void horizonLineDraw();
-// TODO:
-// getRandomType
-// updateXPos
-// update
-// reset
+int horizonLineGetRandomType();
+void horizonLineUpdateXPos(int pos, int increment);
+void horizonLineUpdate(int deltaTime, double speed);
+void horizonLineReset();
 
 void horizonLineInit() {
 	horizonLine.width = HORIZON_LINE_WIDTH;
@@ -334,6 +333,40 @@ void horizonLineInit() {
 void horizonLineDraw() {
 	blitAtlasImage(horizonLine.sourceXPos[0], ATLAS_HORIZON_Y, horizonLine.xPos[0], horizonLine.yPos, horizonLine.width, horizonLine.height, false);
 	blitAtlasImage(horizonLine.sourceXPos[1], ATLAS_HORIZON_Y, horizonLine.xPos[1], horizonLine.yPos, horizonLine.width, horizonLine.height, false);
+}
+
+int horizonLineGetRandomType() {
+	return (double)rand() / RAND_MAX > horizonLine.bumpThreshold ? DM_WIDTH : 0;
+}
+
+void horizonLineUpdateXPos(int pos, int increment) {
+	int line1 = pos;
+	int line2 = pos == 0 ? 1 : 0;
+
+	horizonLine.xPos[line1] -= increment;
+	horizonLine.xPos[line2] = horizonLine.xPos[line1] + DM_WIDTH;
+
+	if (horizonLine.xPos[line1] <= -DM_WIDTH) {
+		horizonLine.xPos[line1] += DM_WIDTH * 2;
+		horizonLine.xPos[line2] = horizonLine.xPos[line1] - DM_WIDTH;
+		horizonLine.sourceXPos[line1] = horizonLineGetRandomType() + ATLAS_HORIZON_X;
+	}
+}
+
+void horizonLineUpdate(int deltaTime, double speed) {
+	int increment = floor(speed * (FPS / 1000.0) * deltaTime);
+	if (horizonLine.xPos[0] <= 0) {
+		horizonLineUpdateXPos(0, increment);
+	}
+	else {
+		horizonLineUpdateXPos(1, increment);
+	}
+	horizonLineDraw();
+}
+
+void horizonLineReset() {
+	horizonLine.xPos[0] = 0;
+	horizonLine.xPos[1] = DM_WIDTH;
 }
 
 
