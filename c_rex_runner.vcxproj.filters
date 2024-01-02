@@ -21,9 +21,48 @@
     <ClCompile Include="ulist.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="distance_meter.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="runner.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="misc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cloud.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="horizon_line.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ulist.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="distance_meter.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="runner.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="misc.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="config.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cloud.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="horizon_line.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

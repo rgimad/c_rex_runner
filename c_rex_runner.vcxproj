@@ -147,10 +147,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cloud.c" />
+    <ClCompile Include="distance_meter.c" />
+    <ClCompile Include="graphics.c" />
+    <ClCompile Include="horizon_line.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="misc.c" />
+    <ClCompile Include="runner.c" />
     <ClCompile Include="ulist.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cloud.h" />
+    <ClInclude Include="config.h" />
+    <ClInclude Include="distance_meter.h" />
+    <ClInclude Include="horizon_line.h" />
+    <ClInclude Include="misc.h" />
+    <ClInclude Include="runner.h" />
+    <ClInclude Include="graphics.h" />
     <ClInclude Include="ulist.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
