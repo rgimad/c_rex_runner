@@ -39,31 +39,37 @@
     <ClCompile Include="horizon_line.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="obstacle.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ulist.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="distance_meter.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="runner.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="graphics.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="misc.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="cloud.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="config.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="cloud.h">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="graphics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="distance_meter.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="horizon_line.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="misc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="obstacle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="runner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ulist.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

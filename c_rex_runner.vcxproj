@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -153,6 +153,7 @@
     <ClCompile Include="horizon_line.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="misc.c" />
+    <ClCompile Include="obstacle.c" />
     <ClCompile Include="runner.c" />
     <ClCompile Include="ulist.c" />
   </ItemGroup>
@@ -162,6 +163,7 @@
     <ClInclude Include="distance_meter.h" />
     <ClInclude Include="horizon_line.h" />
     <ClInclude Include="misc.h" />
+    <ClInclude Include="obstacle.h" />
     <ClInclude Include="runner.h" />
     <ClInclude Include="graphics.h" />
     <ClInclude Include="ulist.h" />

@@ -12,6 +12,7 @@
 #include "graphics.h"
 #include "distance_meter.h"
 #include "cloud.h"
+#include "obstacle.h"
 #include "horizon_line.h"
 #include "runner.h"
 
@@ -32,16 +33,28 @@ int main(int argc, char* args[]) {
 
 	// just test
 	horizonLineInit();
-	 Cloud c;
-	 for (int i = 0; i < 15; i++) {
-	 	cloudInit(&c, runner.width);
-	 	c.xPos = i * 60;
-	 	cloudDraw(&c);
-	 }
+	Cloud c;
+	for (int i = 0; i < 15; i++) {
+		cloudInit(&c, runner.width);
+		c.xPos = i * 60;
+		cloudDraw(&c);
+	}
 	 
 	// test distance meter:
 	distanceMeterSetHighScore(5656);
 	distanceMeterReset();
+
+	Obstacle ob;
+	obstacleInit(&ob, obstacleTypeConfigs[0], runner.width, 0, 0, -500);
+	obstacleDraw(&ob);
+
+	Obstacle ob1;
+	obstacleInit(&ob1, obstacleTypeConfigs[1], runner.width, 0, 0, -400);
+	obstacleDraw(&ob1);
+
+	Obstacle ob2;
+	obstacleInit(&ob2, obstacleTypeConfigs[2], runner.width, 0, 0, -300);
+	obstacleDraw(&ob2);
 
 	SDL_RenderPresent(renderer);
 
