@@ -1,8 +1,10 @@
 #pragma once
 
 #include <stdbool.h>
+#include <stdlib.h>
 #include "graphics.h"
 #include "misc.h"
+#include "config.h"
 
 // Coefficient for calculating the maximum gap
 #define OBSTACLE_MAX_GAP_COEFFICIENT 1.5
@@ -61,3 +63,5 @@ extern ObstacleTypeConfig obstacleTypeConfigs[3];
 
 void obstacleInit(Obstacle *ob, ObstacleTypeConfig otc, int dim_width, double gapCoefficient, double speed, int opt_xOffset);
 void obstacleDraw(const Obstacle* ob);
+int obstacleGetGap(const Obstacle* ob, double gapCoefficient, double speed);
+bool obstacleIsVisible(const Obstacle* ob);

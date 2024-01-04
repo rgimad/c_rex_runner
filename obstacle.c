@@ -14,7 +14,9 @@ ObstacleTypeConfig obstacleTypeConfigs[3] = {
 				{.x = 0, .y = 7, .width = 5, .height = 27},
 				{.x = 4, .y = 0, .width = 6, .height = 34},
 				{.x = 10, .y = 4, .width = 7, .height = 14}
-			}
+			},
+			.numFrames = 1,
+			.speedOffset = 0
 		},
 		{
 			.type = CACTUS_LARGE,
@@ -29,7 +31,9 @@ ObstacleTypeConfig obstacleTypeConfigs[3] = {
 				{.x = 0, .y = 12, .width = 7, .height = 38},
 				{.x = 8, .y = 0, .width = 7, .height = 49},
 				{.x = 13, .y = 10, .width = 10, .height = 38}
-			}
+			},
+			.numFrames = 1,
+			.speedOffset = 0
 		},
 		{
 			.type = PTERODACTYL,
@@ -85,19 +89,63 @@ void obstacleInit(Obstacle* ob, ObstacleTypeConfig otc, int dim_width, double ga
 
 	obstacleDraw(ob);
 
-	// TODO ..
+	// Make collision box adjustments,
+	// Central box is adjusted to the size as one box.
+	//      ____        ______        ________
+	//    _|   |-|    _|     |-|    _|       |-|
+	//   | |<->| |   | |<--->| |   | |<----->| |
+	//   | | 1 | |   | |  2  | |   | |   3   | |
+	//   |_|___|_|   |_|_____|_|   |_|_______|_|
+	//
+
+	if (ob->size > 1) {
+		ob->typeConfig.collisionBoxes[1].width = ob->width - ob->typeConfig.collisionBoxes[0].width - ob->typeConfig.collisionBoxes[2].width;
+		ob->typeConfig.collisionBoxes[2].x = ob->width - ob->typeConfig.collisionBoxes[2].width;
+	}
+
+	// For obstacles that go at a different speed from the horizon
+	if (ob->typeConfig.speedOffset) {
+		ob->typeConfig.speedOffset = (double)rand() / RAND_MAX > 0.5 ? ob->typeConfig.speedOffset : -ob->typeConfig.speedOffset;
+	}
+	ob->gap = obstacleGetGap(ob, ob->gapCoefficient, speed);
 }
 
 void obstacleDraw(const Obstacle *ob) {
 	int sourceWidth = ob->typeConfig.width;
 	int sourceHeight = ob->typeConfig.height;
-	int sourceX = (sourceWidth * ob->size) * (0.5 * (ob->size - 1)) + obstacleSpritePosX[ob->typeConfig.type];
+	int sourceX = (sourceWidth * ob->size) * (0.5 * ((double)ob->size - 1)) + obstacleSpritePosX[ob->typeConfig.type];
 	if (ob->currentFrame > 0) {
 		sourceX += sourceWidth*ob->currentFrame;
 	}
 	graphicsBlitAtlasImage(sourceX, obstacleSpritePosY[ob->typeConfig.type], ob->xPos, ob->yPos, sourceWidth*ob->size, sourceHeight*ob->size, false);
 }
 
+void obstacleUpdate(Obstacle *ob, int deltaTime, double speed) {
+	if (!ob->remove) {
+		ob->xPos -= floor(((speed + ob->typeConfig.speedOffset)*FPS/1000)*deltaTime);
+	}
+	// Update frames
+	if (ob->typeConfig.numFrames > 1) {
+		ob->timer += deltaTime;
+		if (ob->timer >= ob->typeConfig.frameRate) {
+			ob->currentFrame = ob->currentFrame == ob->typeConfig.numFrames - 1 ? 0 : ob->currentFrame + 1;
+			ob->timer = 0;
+		}
+	}
+	obstacleDraw(ob);
+	if (!obstacleIsVisible(ob)) {
+		ob->remove = true;
+	}
+}
 
+int obstacleGetGap(const Obstacle *ob, double gapCoefficient, double speed) {
+	int minGap = round(ob->width * speed + ob->typeConfig.minGap * gapCoefficient);
+	int maxGap = round(minGap * OBSTACLE_MAX_GAP_COEFFICIENT);
+	return getRandomNumber(minGap, maxGap);
+}
+
+bool obstacleIsVisible(const Obstacle* ob) {
+	return ob->xPos + ob->width > 0;
+}
 
 
