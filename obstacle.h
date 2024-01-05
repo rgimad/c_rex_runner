@@ -5,19 +5,13 @@
 #include "graphics.h"
 #include "misc.h"
 #include "config.h"
+#include "collisionbox.h"
 
 // Coefficient for calculating the maximum gap
 #define OBSTACLE_MAX_GAP_COEFFICIENT 1.5
 
 // Maximum obstacle grouping count
 #define OBSTACLE_MAX_OBSTACLE_LENGTH 3
-
-typedef struct {
-    int x;
-    int y;
-    int width;
-    int height;
-} CollisionBox;
 
 typedef enum {
     CACTUS_SMALL = 0,

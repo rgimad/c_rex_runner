@@ -155,10 +155,12 @@
     <ClCompile Include="misc.c" />
     <ClCompile Include="obstacle.c" />
     <ClCompile Include="runner.c" />
+    <ClCompile Include="trex.c" />
     <ClCompile Include="ulist.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cloud.h" />
+    <ClInclude Include="collisionbox.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="distance_meter.h" />
     <ClInclude Include="horizon_line.h" />
@@ -166,6 +168,7 @@
     <ClInclude Include="obstacle.h" />
     <ClInclude Include="runner.h" />
     <ClInclude Include="graphics.h" />
+    <ClInclude Include="trex.h" />
     <ClInclude Include="ulist.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

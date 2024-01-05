@@ -1,0 +1,138 @@
+#include "trex.h"
+
+Trex trex;
+
+CollisionBox trexDuckingCollisionBox = {.x = 1, .y = 18, .width = 55, .height = 25};
+CollisionBox trexRunningCollisionBox[6] = 
+{
+	{.x = 22, .y = 0, .width = 17, .height = 16},
+	{.x = 1, .y = 18, .width = 30, .height = 9},
+	{.x = 10, .y = 35, .width = 14, .height = 8},
+	{.x = 1, .y = 24, .width = 29, .height = 5},
+	{.x = 5, .y = 30, .width = 21, .height = 4},
+	{.x = 9, .y = 34, .width = 15, .height = 4}
+};
+
+TrexAnimFramesEntry trexAnimFrames[5] = {
+	{.frameCount = 2, .frames = {44, 0}, .msPerFrame = 1000/3},
+	{.frameCount = 2, .frames = {88, 132}, .msPerFrame = 1000/12},
+	{.frameCount = 1, .frames = {220}, .msPerFrame = 1000/60},
+	{.frameCount = 1, .frames = {0}, .msPerFrame = 1000/60},
+	{.frameCount = 2, .frames = {264, 323}, .msPerFrame = 1000/8}
+};
+
+// T - rex player initaliser
+// Sets the t - rex to blink at random intervals
+void trexInit() {
+	trex.xPos = 0;
+	trex.currentFrame = 0;
+	//this.currentAnimFrames = [];
+	trex.blinkDelay = 0;
+	trex.blinkCount = 0;
+	trex.animStartTime = 0;
+	trex.timer = 0;
+	trex.msPerFrame = 1000 / FPS;
+	trex.status = TREX_STATUS_WAITING;
+	trex.jumping = false;
+	trex.ducking = false;
+	trex.jumpVelocity = 0;
+	trex.reachedMinHeight = false;
+	trex.speedDrop = false;
+	trex.jumpCount = 0;
+	trex.jumpspotX;
+	trex.groundYPos = RUNNER_DEFAULT_HEIGHT - TREX_HEIGHT - RUNNER_BOTTOM_PAD;
+	trex.yPos = trex.groundYPos;
+	trex.reachedMinHeight = trex.groundYPos - TREX_MIN_JUMP_HEIGHT;
+	trex.playingIntro = false;
+
+	trexDraw(0, 0);
+	// trexUpdate(0, TREX_STATUS_WAITING); // TODO
+}
+
+// Set the animation status
+void trexUpdate(int deltaTime, int opt_status) {
+	trex.timer += deltaTime;
+	// Update the status
+	if (opt_status != -1) {
+		trex.status = opt_status;
+		trex.currentFrame = 0;
+		trex.msPerFrame = trexAnimFrames[opt_status].msPerFrame;
+		trex.currentAnimFrames = trexAnimFrames[opt_status];
+		if (opt_status == TREX_STATUS_WAITING) {
+			trex.animStartTime = getTimeStamp();
+			trexSetBlinkDelay();
+		}
+		// Game intro animation, T-rex moves in from the left.
+		if (trex.playingIntro && trex.xPos < TREX_START_X_POS) {
+			trex.xPos += (int)round((TREX_START_X_POS / TREX_INTRO_DURATION) * deltaTime);
+		}
+
+		if (trex.status == TREX_STATUS_WAITING) {
+			trexBlink(getTimeStamp());
+		}
+		else {
+			trexDraw(trex.currentAnimFrames.frames[trex.currentFrame], 0);
+		}
+
+		// Update the frame position.
+		if (trex.timer >= trex.msPerFrame) {
+			trex.currentFrame = trex.currentFrame == trex.currentAnimFrames.frameCount - 1 ? 0 : trex.currentFrame + 1;
+			trex.timer = 0;
+		}
+
+		// Speed drop becomes duck if the down key is still being pressed.
+		if (trex.speedDrop && trex.yPos == trex.groundYPos) {
+			trex.speedDrop = false;
+			trexSetDuck(true);
+		}
+	}
+}
+
+void trexDraw(int x, int y) {
+	int sourceWidth = trex.ducking && trex.status != TREX_STATUS_CRASHED ? TREX_WIDTH_DUCK : TREX_WIDTH;
+	int sourceHeight = TREX_HEIGHT;
+	// Adjustments for sprite sheet position.
+	int sourceX = x + ATLAS_TREX_X;
+	int sourceY = y + ATLAS_TREX_Y;
+
+	// Ducking.
+	if (trex.ducking && trex.status != TREX_STATUS_CRASHED) {
+		graphicsBlitAtlasImage(sourceX, sourceY, trex.xPos, trex.yPos, sourceWidth, sourceHeight, false);
+	}
+	else {
+		// Crashed whilst ducking. Trex is standing up so needs adjustment.
+		if (trex.ducking && trex.status == TREX_STATUS_CRASHED) {
+			trex.xPos++;
+		}
+		// Standing / running
+		graphicsBlitAtlasImage(sourceX, sourceY, trex.xPos, trex.yPos, sourceWidth, sourceHeight, false);
+	}
+}
+
+void trexSetBlinkDelay() {
+	trex.blinkDelay = (int)ceil(((double)rand()/RAND_MAX)*TREX_BLINK_TIMING);
+}
+
+void trexBlink(int time) {
+	int deltaTime = time - trex.animStartTime;
+	if (deltaTime >= trex.blinkDelay) {
+		trexDraw(trex.currentAnimFrames.frames[trex.currentFrame], 0);
+		if (trex.currentFrame == 1) {
+			// Set new random delay to blink.
+			trexSetBlinkDelay();
+			trex.animStartTime = time;
+			trex.blinkCount++;
+		}
+	}
+}
+
+void trexSetDuck(bool isDucking) {
+	if (isDucking && trex.status != TREX_STATUS_DUCKING) {
+		trexUpdate(0, TREX_STATUS_DUCKING);
+		trex.ducking = true;
+	}
+	else if (trex.status == TREX_STATUS_DUCKING) {
+		trexUpdate(0, TREX_STATUS_RUNNING);
+		trex.ducking = false;
+	}
+}

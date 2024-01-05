@@ -42,6 +42,9 @@
     <ClCompile Include="obstacle.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="trex.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cloud.h">
@@ -69,6 +72,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ulist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="trex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="collisionbox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

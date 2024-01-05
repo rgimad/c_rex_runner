@@ -6,6 +6,8 @@
 #include "graphics.h"
 #include "distance_meter.h"
 
+#define RUNNER_DEFAULT_HEIGHT 150
+
 #define RUNNER_ACCELERATION 0.001
 #define RUNNER_BG_CLOUD_SPEED 0.2
 #define RUNNER_BOTTOM_PAD 10
@@ -36,7 +38,7 @@ typedef struct {
 	int highestScore;
 	int time;
 	int runningTime;
-	int msPerFrame;
+	double msPerFrame;
 	int currentSpeed;
 	Ulist* obstacles;
 	bool activated;

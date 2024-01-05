@@ -14,6 +14,7 @@
 #include "cloud.h"
 #include "obstacle.h"
 #include "horizon_line.h"
+#include "trex.h"
 #include "runner.h"
 
 #pragma warning(disable:4996)
@@ -55,6 +56,8 @@ int main(int argc, char* args[]) {
 	Obstacle ob2;
 	obstacleInit(&ob2, obstacleTypeConfigs[2], runner.width, 0, 0, -300);
 	obstacleDraw(&ob2);
+
+	trexInit();
 
 	SDL_RenderPresent(renderer);
 

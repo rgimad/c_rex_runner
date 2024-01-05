@@ -21,3 +21,7 @@ void intToStr(int num, int ndigits, char* result) {
 		strcpy(result + z, num_str);
 	}
 }
+
+int getTimeStamp() {
+	return (int)SDL_GetTicks();
+}
