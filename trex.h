@@ -15,7 +15,7 @@
 #define TREX_GRAVITY 0.6
 #define TREX_HEIGHT 47
 #define TREX_HEIGHT_DUCK 25
-#define TREX_INITIAL_JUNP_VELOCITY -10
+#define TREX_INITIAL_JUMP_VELOCITY -10
 #define TREX_INTRO_DURATION 1500
 #define TREX_MAX_JUMP_HEIGHT 30
 #define TREX_MIN_JUMP_HEIGHT 30
@@ -59,6 +59,7 @@ typedef struct {
 	bool speedDrop;
 	int jumpCount;
 	int jumpspotX;
+	int minJumpHeight;
 	bool playingIntro;
 } Trex;
 
@@ -69,5 +70,9 @@ void trexUpdate(int deltaTime, int opt_status);
 void trexDraw(int x, int y);
 void trexSetBlinkDelay();
 void trexBlink(int time);
+void trexStartJump(double speed);
+void trexEndJump();
+void trexUpdateJump(int deltaTime, double speed);
+void trexSetSpeedDrop();
 void trexSetDuck(bool isDucking);
-// TODO
+void trexReset();

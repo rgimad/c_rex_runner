@@ -33,16 +33,18 @@ void trexInit() {
 	trex.timer = 0;
 	trex.msPerFrame = 1000 / FPS;
 	trex.status = TREX_STATUS_WAITING;
+
 	trex.jumping = false;
 	trex.ducking = false;
 	trex.jumpVelocity = 0;
 	trex.reachedMinHeight = false;
 	trex.speedDrop = false;
 	trex.jumpCount = 0;
-	trex.jumpspotX;
+	trex.jumpspotX = 0;
+
 	trex.groundYPos = RUNNER_DEFAULT_HEIGHT - TREX_HEIGHT - RUNNER_BOTTOM_PAD;
 	trex.yPos = trex.groundYPos;
-	trex.reachedMinHeight = trex.groundYPos - TREX_MIN_JUMP_HEIGHT;
+	trex.minJumpHeight = trex.groundYPos - TREX_MIN_JUMP_HEIGHT;
 	trex.playingIntro = false;
 
 	trexDraw(0, 0);
@@ -126,6 +128,60 @@ void trexBlink(int time) {
 	}
 }
 
+// Initialise a jump
+void trexStartJump(double speed) {
+	if (!trex.jumping) {
+		trexUpdate(0, TREX_STATUS_JUMPING);
+		// Tweak the jump velocity based on the speed
+		trex.jumpVelocity = TREX_INITIAL_JUMP_VELOCITY - (speed / 10);
+		trex.jumping = true;
+		trex.reachedMinHeight = false;
+		trex.speedDrop = false;
+	}
+}
+
+// Jump is complete, falling down
+void trexEndJump() {
+	if (trex.reachedMinHeight && trex.jumpVelocity < TREX_DROP_VELOCITY) {
+		trex.jumpVelocity = TREX_DROP_VELOCITY;
+	}
+}
+
+// Update frame for a jump
+void trexUpdateJump(int deltaTime, double speed) {
+	double msPerFrame = trexAnimFrames[trex.status].msPerFrame;
+	double framesElapsed = deltaTime / msPerFrame;
+
+	// Speed drop makes Trex fall faster.
+	if (trex.speedDrop) {
+		trex.yPos += (int)round((double)trex.jumpVelocity * TREX_SPEED_DROP_COEFFICIENT * framesElapsed);
+	}
+	else {
+		trex.yPos += (int)round(trex.jumpVelocity * framesElapsed);
+	}
+	trex.jumpVelocity += TREX_GRAVITY * framesElapsed;
+	// Minimum height has been reached.
+	if (trex.yPos < trex.minJumpHeight || trex.speedDrop) {
+		trex.reachedMinHeight = true;
+	}
+	// Reached max height
+	if (trex.yPos < TREX_MAX_JUMP_HEIGHT || trex.speedDrop) {
+		trexEndJump();
+	}
+	// Back down at ground level. Jump completed.
+	if (trex.yPos > trex.groundYPos) {
+		trexReset();
+		trex.jumpCount++;
+	}
+	trexUpdate(deltaTime, -1);
+}
+
+// Set the speed drop.Immediately cancels the current jump
+void trexSetSpeedDrop() {
+	trex.speedDrop = true;
+	trex.jumpVelocity = 1;
+}
+
 void trexSetDuck(bool isDucking) {
 	if (isDucking && trex.status != TREX_STATUS_DUCKING) {
 		trexUpdate(0, TREX_STATUS_DUCKING);
@@ -135,4 +191,16 @@ void trexSetDuck(bool isDucking) {
 		trexUpdate(0, TREX_STATUS_RUNNING);
 		trex.ducking = false;
 	}
+}
+
+// Reset the t-rex to running at start of game
+void trexReset() {
+	trex.yPos = trex.groundYPos;
+	trex.jumpVelocity = 0;
+	trex.jumping = false;
+	trex.ducking = false;
+	trexUpdate(0, TREX_STATUS_RUNNING);
+	//trex.midair = false; TODO: WTF is midair
+	trex.speedDrop = false;
+	trex.jumpCount = 0;
 }
