@@ -1,8 +1,8 @@
 #include "graphics.h"
 
-SDL_Window* window;
-SDL_Renderer* renderer;
-SDL_Texture* graphicsSpriteAtlas;
+static SDL_Window* window;
+static SDL_Renderer* renderer;
+static SDL_Texture* graphicsSpriteAtlas;
 
 void graphicsInit() {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -27,4 +27,21 @@ void graphicsBlitAtlasImage(int atlasX, int atlasY, int destX, int destY, int w,
 		dest.y -= (dest.h / 2);
 	}
 	SDL_RenderCopy(renderer, graphicsSpriteAtlas, &src, &dest);
+}
+
+void graphicsFillBackground(unsigned r, unsigned g, unsigned b) {
+	SDL_SetRenderDrawColor(renderer, r, g, b, 0xFF);
+	SDL_RenderClear(renderer);
+}
+
+void graphicsRender() {
+	SDL_RenderPresent(renderer);
+}
+
+
+void graphicsDestroy() {
+	//Destroy window
+	SDL_DestroyWindow(window);
+	//Quit SDL subsystems
+	SDL_Quit();
 }

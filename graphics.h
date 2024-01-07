@@ -28,3 +28,6 @@
 
 void graphicsInit();
 void graphicsBlitAtlasImage(int atlasX, int atlasY, int destX, int destY, int w, int h, bool center);
+void graphicsFillBackground(unsigned r, unsigned g, unsigned b);
+void graphicsRender();
+void graphicsDestroy();

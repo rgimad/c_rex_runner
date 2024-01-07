@@ -28,9 +28,7 @@ int main(int argc, char* args[]) {
 
 	runnerInit();
 
-	extern SDL_Renderer* renderer;
-	SDL_SetRenderDrawColor(renderer, 0xF7, 0xF7, 0xF7, 0xFF);
-	SDL_RenderClear(renderer);
+	graphicsFillBackground(0xF7, 0xF7, 0xF7);
 
 	// just test
 	horizonLineInit();
@@ -59,7 +57,7 @@ int main(int argc, char* args[]) {
 
 	trexInit();
 
-	SDL_RenderPresent(renderer);
+	graphicsRender();
 
 	//Hack to get window to stay up
 	SDL_Event e;
@@ -102,12 +100,7 @@ int main(int argc, char* args[]) {
 		
 	}
 
-	extern SDL_Window* window;//
-	//Destroy window
-	SDL_DestroyWindow(window);
-
-	//Quit SDL subsystems
-	SDL_Quit();
+	graphicsDestroy();
 
 	return 0;
 }
