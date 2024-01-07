@@ -63,8 +63,8 @@ int obstacleSpritePosX[3] = { ATLAS_CACTUS_SMALL_X, ATLAS_CACTUS_LARGE_X, ATLAS_
 int obstacleSpritePosY[3] = { ATLAS_CACTUS_SMALL_Y, ATLAS_CACTUS_LARGE_Y, ATLAS_PTERODACTYL_Y};
 
 
-void obstacleInit(Obstacle* ob, ObstacleTypeConfig otc, int dim_width, double gapCoefficient, double speed, int opt_xOffset) {
-	ob->typeConfig = otc;
+void obstacleInit(Obstacle* ob, ObstacleTypeConfig *otc, int dim_width, double gapCoefficient, double speed, int opt_xOffset) {
+	ob->typeConfig = *otc;
 	ob->gapCoefficient = gapCoefficient;
 	ob->size = getRandomNumber(1, OBSTACLE_MAX_OBSTACLE_LENGTH);
 	ob->remove = false;
@@ -74,6 +74,8 @@ void obstacleInit(Obstacle* ob, ObstacleTypeConfig otc, int dim_width, double ga
 	// For animated obstacles
 	ob->currentFrame = 0;
 	ob->timer = 0;
+
+	ob->followingObstacleCreated = false;
 
 	if (ob->size > 1 && ob->typeConfig.multipleSpeed > speed) {
 		ob->size = 1;

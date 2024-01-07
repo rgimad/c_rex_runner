@@ -18,7 +18,7 @@ typedef struct {
 	int cloudGap;
 } Cloud;
 
-void cloudInit();
+void cloudInit(Cloud* cloud, int w);
 void cloudDraw(const Cloud* cloud);
 void cloudUpdate(Cloud* cloud, double speed);
 bool cloudIsVisible(const Cloud* cloud);

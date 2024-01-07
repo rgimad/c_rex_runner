@@ -45,6 +45,9 @@
     <ClCompile Include="trex.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="horizon.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cloud.h">
@@ -78,6 +81,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="collisionbox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="horizon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

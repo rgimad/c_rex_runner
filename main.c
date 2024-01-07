@@ -46,15 +46,15 @@ int main(int argc, char* args[]) {
 	distanceMeterReset();
 
 	Obstacle ob;
-	obstacleInit(&ob, obstacleTypeConfigs[0], runner.width, 0, 0, -500);
+	obstacleInit(&ob, &obstacleTypeConfigs[0], runner.width, 0, 0, -500);
 	obstacleDraw(&ob);
 
 	Obstacle ob1;
-	obstacleInit(&ob1, obstacleTypeConfigs[1], runner.width, 0, 0, -400);
+	obstacleInit(&ob1, &obstacleTypeConfigs[1], runner.width, 0, 0, -400);
 	obstacleDraw(&ob1);
 
 	Obstacle ob2;
-	obstacleInit(&ob2, obstacleTypeConfigs[2], runner.width, 0, 0, -300);
+	obstacleInit(&ob2, &obstacleTypeConfigs[2], runner.width, 0, 0, -300);
 	obstacleDraw(&ob2);
 
 	trexInit();

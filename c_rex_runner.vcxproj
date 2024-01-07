@@ -150,6 +150,7 @@
     <ClCompile Include="cloud.c" />
     <ClCompile Include="distance_meter.c" />
     <ClCompile Include="graphics.c" />
+    <ClCompile Include="horizon.c" />
     <ClCompile Include="horizon_line.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="misc.c" />
@@ -163,6 +164,7 @@
     <ClInclude Include="collisionbox.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="distance_meter.h" />
+    <ClInclude Include="horizon.h" />
     <ClInclude Include="horizon_line.h" />
     <ClInclude Include="misc.h" />
     <ClInclude Include="obstacle.h" />

@@ -70,6 +70,31 @@ void ulist_push_back(Ulist* list, void* data) {
     list->size++;
 }
 
+void ulist_remove(Ulist* list, Node* node) {
+    if (list == NULL || node == NULL) {
+        return;
+    }
+    // Update previous node's next pointer
+    if (node->prev != NULL) {
+        node->prev->next = node->next;
+    }
+    else {
+        // If the node is the head, update the head pointer
+        list->head = node->next;
+    }
+    // Update next node's previous pointer
+    if (node->next != NULL) {
+        node->next->prev = node->prev;
+    }
+    else {
+        // If the node is the tail, update the tail pointer
+        list->tail = node->prev;
+    }
+    // Free the memory occupied by the node
+    free(node);
+    list->size--;
+}
+
 void ulist_remove_front(Ulist* list) {
     if (list->head == NULL) {
         return;
@@ -87,6 +112,17 @@ void ulist_remove_front(Ulist* list) {
 
     free(node_to_remove);
     list->size--;
+}
+
+void ulist_splice(Ulist* list, int n) {
+    if (list->size <= n) {
+        return;  // No need to splice if the list size is less than or equal to n
+    }
+    int count = list->size - n;
+    while (count > 0) {
+        ulist_remove_front(list);
+        count--;
+    }
 }
 
 void ulist_remove_back(Ulist* list) {

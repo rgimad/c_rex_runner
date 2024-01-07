@@ -51,11 +51,13 @@ typedef struct {
     // double speedOffset;
     int currentFrame;
     int timer;
+    bool followingObstacleCreated;
 } Obstacle;
 
 extern ObstacleTypeConfig obstacleTypeConfigs[3];
 
-void obstacleInit(Obstacle *ob, ObstacleTypeConfig otc, int dim_width, double gapCoefficient, double speed, int opt_xOffset);
+void obstacleInit(Obstacle *ob, ObstacleTypeConfig *otc, int dim_width, double gapCoefficient, double speed, int opt_xOffset);
 void obstacleDraw(const Obstacle* ob);
+void obstacleUpdate(Obstacle* ob, int deltaTime, double speed);
 int obstacleGetGap(const Obstacle* ob, double gapCoefficient, double speed);
 bool obstacleIsVisible(const Obstacle* ob);
