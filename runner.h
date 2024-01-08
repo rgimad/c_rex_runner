@@ -79,4 +79,4 @@ void runnerStop();
 void runnerPlay();
 void runnerRestart();
 
-// TODO
+bool runnerCheckForCollision(const Obstacle *obstacle);

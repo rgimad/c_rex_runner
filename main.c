@@ -71,15 +71,20 @@ int main(int argc, char* args[]) {
 				quit = true;
 				break;
 			case SDL_KEYDOWN:
-				printf("DOWN%d ", event.key.keysym.sym & 0xFF);
+				//printf("DOWN%d ", event.key.keysym.sym & 0xFF);
+				runnerOnKeyDown(event.key.keysym.sym & 0xFF);
 				break;
 			case SDL_KEYUP:
-				printf("UP%d ", event.key.keysym.sym & 0xFF);
+				//printf("UP%d ", event.key.keysym.sym & 0xFF);
+				runnerOnKeyUp(event.key.keysym.sym & 0xFF);
 				break;
 			default:
 				break;
 			}
 		}
+		runnerUpdate();
+		graphicsRender();
+		SDL_Delay(50);
 		/*
 		// clear the screen
 		SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);

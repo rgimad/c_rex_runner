@@ -58,7 +58,7 @@ void horizonUpdateObstacles(int deltaTime, double currentSpeed) {
     Node* obNode = horizon.obstacles->head;
     while (obNode != NULL) {
         Node* obNodeNext = obNode->next;
-        Obstacle* ob = obNodeNext->next->data;
+        Obstacle* ob = obNode->data;
         obstacleUpdate(ob, deltaTime, currentSpeed);
         // Clean up existing obstacles
         if (ob->remove) {

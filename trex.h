@@ -63,6 +63,8 @@ typedef struct {
 	bool playingIntro;
 } Trex;
 
+extern CollisionBox trexDuckingCollisionBox;
+extern CollisionBox trexRunningCollisionBox[6];
 extern Trex trex;
 
 void trexInit();

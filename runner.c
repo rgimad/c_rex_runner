@@ -32,10 +32,9 @@ void runnerInit() {
 
 	// gameOverPanelDraw(); // just test
 
-	/*this.startListening();
-	this.update();
-	window.addEventListener(Runner.events.RESIZE,
-		this.debounceResize.bind(this));*/
+	// this.startListening();
+	runnerUpdate();
+	//window.addEventListener(Runner.events.RESIZE, this.debounceResize.bind(this));
 }
 
 void runnerAdjustDimensions() {
@@ -245,6 +244,59 @@ void runnerStartGame() {
 	runner.playingIntro = false;
 	trex.playingIntro = false;
 	runner.playCount++;
+}
+
+CollisionBox createAdjustedCollisionBox(CollisionBox box, CollisionBox adjustment) {
+	return (CollisionBox){ .x = box.x + adjustment.x, .y = box.y + adjustment.y, .width = box.width, .height = box.height };
+}
+
+// Returns whether boxes intersected
+bool boxCompare(CollisionBox tRexBox, CollisionBox obstacleBox) {
+	// Axis-Aligned Bounding Box method.
+	return (tRexBox.x < obstacleBox.x + obstacleBox.width &&
+		tRexBox.x + tRexBox.width > obstacleBox.x &&
+		tRexBox.y < obstacleBox.y + obstacleBox.height &&
+		tRexBox.height + tRexBox.y > obstacleBox.y);
+}
+
+bool runnerCheckForCollision(const Obstacle* obstacle) {
+	// Adjustments are made to the bounding box as there is a 1 pixel white
+		// border around the t-rex and obstacles.
+	CollisionBox tRexBox = {
+		.x = trex.xPos + 1,
+		.y = trex.yPos + 1,
+		.width = TREX_WIDTH - 2,
+		.height = TREX_HEIGHT - 2 };
+
+	CollisionBox obstacleBox = {
+		.x = obstacle->xPos + 1,
+		.y = obstacle->yPos + 1,
+		.width = obstacle->typeConfig.width * obstacle->size - 2,
+		.height = obstacle->typeConfig.height - 2 };
+
+	// Simple outer bounds check.
+	if (boxCompare(tRexBox, obstacleBox)) {
+		CollisionBox* tRexCollisionBoxes = &trexDuckingCollisionBox;
+		int tRexCollisionBoxesCount = 1;
+		if (!trex.ducking) {
+			tRexCollisionBoxes = trexRunningCollisionBox;
+			tRexCollisionBoxesCount = 6;
+		}
+
+		// Detailed axis aligned box check.
+		for (int t = 0; t < tRexCollisionBoxesCount; t++) {
+			for (int i = 0; i < obstacle->typeConfig.collisionBoxesCount; i++) {
+				// Adjust the box to actual positions.
+				CollisionBox adjTrexBox = createAdjustedCollisionBox(tRexCollisionBoxes[t], tRexBox);
+				CollisionBox adjObstacleBox = createAdjustedCollisionBox(obstacle->typeConfig.collisionBoxes[i], obstacleBox);
+				
+				if (boxCompare(adjTrexBox, adjObstacleBox)) {
+					return true;// [adjTrexBox, adjObstacleBox] ;
+				}
+			}
+		}
+	}
+	return false;
 }
 
 
