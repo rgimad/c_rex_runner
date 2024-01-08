@@ -4,7 +4,10 @@
 #include "config.h"
 #include "ulist.h"
 #include "graphics.h"
+#include "horizon.h"
 #include "distance_meter.h"
+#include "game_over_panel.h"
+#include "trex.h"
 
 #define RUNNER_DEFAULT_HEIGHT 150
 
@@ -29,24 +32,29 @@
 #define RUNNER_SPEED 6
 #define RUNNER_SPEED_DROP_COEFFICIENT 3
 
+#define RUNNER_KEYCODE_JUMP_1 82
+#define RUNNER_KEYCODE_JUMP_2 32
+#define RUNNER_KEYCODE_DUCK 81
+#define RUNNER_KEYCODE_RESTART 13
+
 typedef struct {
 	int width;
 	int height;
-	// trex
-	// distancemeter
-	int distanceRan;
+	double distanceRan;
 	int highestScore;
 	int time;
 	int runningTime;
 	double msPerFrame;
-	int currentSpeed;
-	Ulist* obstacles;
+	double currentSpeed;
+	// Ulist* obstacles;
 	bool activated;
 	bool playing;
 	bool crashed;
 	bool paused;
 	bool inverted;
 	bool invertTimer;
+	bool playingIntro;
+	//bool isRunning;
 	// resizeTimerId_
 	int playCount;
 	// soundFx
@@ -59,4 +67,16 @@ extern Runner runner;
 
 void runnerInit();
 void runnerAdjustDimensions();
-void runnerLoadImages();
+//void runnerLoadImages();
+
+void runnerPlayIntro();
+void runnerStartGame();
+void runnerUpdate();
+void runnerOnKeyDown(int key);
+void runnerOnKeyUp(int key);
+void runnerGameOver();
+void runnerStop();
+void runnerPlay();
+void runnerRestart();
+
+// TODO

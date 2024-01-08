@@ -54,7 +54,7 @@ typedef struct {
 	TrexStatus status;
 	bool jumping;
 	bool ducking;
-	int jumpVelocity;
+	double jumpVelocity;
 	bool reachedMinHeight;
 	bool speedDrop;
 	int jumpCount;
@@ -72,7 +72,7 @@ void trexSetBlinkDelay();
 void trexBlink(int time);
 void trexStartJump(double speed);
 void trexEndJump();
-void trexUpdateJump(int deltaTime, double speed);
+void trexUpdateJump(int deltaTime);
 void trexSetSpeedDrop();
 void trexSetDuck(bool isDucking);
 void trexReset();

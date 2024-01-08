@@ -28,6 +28,7 @@ int main(int argc, char* args[]) {
 
 	runnerInit();
 
+	/* // TESTS:
 	graphicsFillBackground(0xF7, 0xF7, 0xF7);
 
 	// just test
@@ -56,17 +57,24 @@ int main(int argc, char* args[]) {
 	obstacleDraw(&ob2);
 
 	trexInit();
+	*/
 
 	graphicsRender();
 
 	//Hack to get window to stay up
-	SDL_Event e;
+	SDL_Event event;
 	bool quit = false;
 	while (quit == false) {
-		while (SDL_PollEvent(&e)) {
-			switch (e.type) {
+		while (SDL_PollEvent(&event)) {
+			switch (event.type) {
 			case SDL_QUIT:
 				quit = true;
+				break;
+			case SDL_KEYDOWN:
+				printf("DOWN%d ", event.key.keysym.sym & 0xFF);
+				break;
+			case SDL_KEYUP:
+				printf("UP%d ", event.key.keysym.sym & 0xFF);
 				break;
 			default:
 				break;

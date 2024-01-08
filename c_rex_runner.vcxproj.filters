@@ -48,6 +48,9 @@
     <ClCompile Include="horizon.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="game_over_panel.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cloud.h">
@@ -84,6 +87,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="horizon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game_over_panel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

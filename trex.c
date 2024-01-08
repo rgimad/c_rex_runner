@@ -148,13 +148,13 @@ void trexEndJump() {
 }
 
 // Update frame for a jump
-void trexUpdateJump(int deltaTime, double speed) {
+void trexUpdateJump(int deltaTime) {
 	double msPerFrame = trexAnimFrames[trex.status].msPerFrame;
 	double framesElapsed = deltaTime / msPerFrame;
 
 	// Speed drop makes Trex fall faster.
 	if (trex.speedDrop) {
-		trex.yPos += (int)round((double)trex.jumpVelocity * TREX_SPEED_DROP_COEFFICIENT * framesElapsed);
+		trex.yPos += (int)round(trex.jumpVelocity * TREX_SPEED_DROP_COEFFICIENT * framesElapsed);
 	}
 	else {
 		trex.yPos += (int)round(trex.jumpVelocity * framesElapsed);

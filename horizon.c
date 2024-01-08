@@ -58,7 +58,7 @@ void horizonUpdateObstacles(int deltaTime, double currentSpeed) {
     Node* obNode = horizon.obstacles->head;
     while (obNode != NULL) {
         Node* obNodeNext = obNode->next;
-        Obstacle* ob = obNodeNext->next;
+        Obstacle* ob = obNodeNext->next->data;
         obstacleUpdate(ob, deltaTime, currentSpeed);
         // Clean up existing obstacles
         if (ob->remove) {
@@ -69,7 +69,7 @@ void horizonUpdateObstacles(int deltaTime, double currentSpeed) {
     }
 
     if (ulist_size(horizon.obstacles) > 0) {
-        Obstacle *lastObstacle = horizon.obstacles->tail;
+        Obstacle *lastObstacle = horizon.obstacles->tail->data;
 
         if (lastObstacle && !lastObstacle->followingObstacleCreated && obstacleIsVisible(lastObstacle) && (lastObstacle->xPos + lastObstacle->width + lastObstacle->gap) < horizon.dim_width) {
             horizonAddNewObstacle(currentSpeed);
