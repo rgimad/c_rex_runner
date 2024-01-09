@@ -5,6 +5,8 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
+#include "config.h"
+
 #define ATLAS_CACTUS_LARGE_X 332
 #define ATLAS_CACTUS_LARGE_Y 2
 #define ATLAS_CACTUS_SMALL_X 228

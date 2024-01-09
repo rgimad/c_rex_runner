@@ -18,7 +18,6 @@ void horizonLineDraw() {
 	//printf("horizonLineDraw(); xPos[0] = %d, xPos[1] = %d, yPos = %d, width = %d, height = %d\n", horizonLine.xPos[0], horizonLine.xPos[1], horizonLine.yPos, horizonLine.width, horizonLine.height);
 	graphicsBlitAtlasImage(horizonLine.sourceXPos[0], ATLAS_HORIZON_Y, horizonLine.xPos[0], horizonLine.yPos, horizonLine.width, horizonLine.height, false);
 	graphicsBlitAtlasImage(horizonLine.sourceXPos[1], ATLAS_HORIZON_Y, horizonLine.xPos[1], horizonLine.yPos, horizonLine.width, horizonLine.height, false);
-	//while (1) {}
 }
 
 int horizonLineGetRandomType() {

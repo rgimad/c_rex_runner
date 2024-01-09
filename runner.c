@@ -30,8 +30,6 @@ void runnerInit() {
 	distanceMeterInit(runner.width);
 	trexInit();
 
-	// gameOverPanelDraw(); // just test
-
 	// this.startListening();
 	runnerUpdate();
 	//window.addEventListener(Runner.events.RESIZE, this.debounceResize.bind(this));
@@ -171,6 +169,8 @@ void runnerUpdate() {
 		trexUpdate(deltaTime, -1);
 		// this.scheduleNextUpdate();
 	}
+	
+	graphicsRender(); // blit all drawn to the screen
 }
 
 void runnerGameOver() {
