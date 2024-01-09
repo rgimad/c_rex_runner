@@ -10,6 +10,8 @@ void horizonInit(int dim_width, double gapCoefficient) {
 	horizon.clouds = ulist_create();
 
 	horizonAddCloud();
+
+    horizonLineInit();
 }
 
 void horizonUpdate(int deltaTime, double currentSpeed, bool updateObstacles, bool showNightMode) {

@@ -83,7 +83,7 @@ int main(int argc, char* args[]) {
 			}
 		}
 		runnerUpdate();
-		graphicsRender();
+		//graphicsRender();
 		SDL_Delay(50);
 		/*
 		// clear the screen

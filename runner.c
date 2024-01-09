@@ -89,13 +89,17 @@ void runnerOnKeyUp(int key) {
 	}
 }
 
+void runnerClearCanvas() {
+	graphicsFillBackground(0xF7, 0xF7, 0xF7);
+	graphicsRender();
+}
 
 void runnerUpdate() {
 	int now = getTimeStamp();
 	int deltaTime = now - (runner.time ? runner.time : 0);
 	runner.time = now;
 	if (runner.playing) {
-		graphicsFillBackground(0xF7, 0xF7, 0xF7);
+		runnerClearCanvas();
 
 		if (trex.jumping) {
 			trexUpdateJump(deltaTime);
@@ -212,8 +216,7 @@ void runnerRestart() {
 	runner.distanceRan = 0;
 	//runnerSetSpeed(RUNNER_SPEED); // need for mobile
 	runner.time = getTimeStamp();
-	//this.clearCanvas();
-	graphicsFillBackground(0xF7, 0xF7, 0xF7);
+	runnerClearCanvas();
 	distanceMeterReset(runner.highestScore);
 	horizonReset();
 	trexReset();

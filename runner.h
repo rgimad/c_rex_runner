@@ -69,6 +69,8 @@ void runnerInit();
 void runnerAdjustDimensions();
 //void runnerLoadImages();
 
+void runnerClearCanvas();
+
 void runnerPlayIntro();
 void runnerStartGame();
 void runnerUpdate();
