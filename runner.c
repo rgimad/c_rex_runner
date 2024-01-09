@@ -91,7 +91,7 @@ void runnerOnKeyUp(int key) {
 
 void runnerClearCanvas() {
 	graphicsFillBackground(0xF7, 0xF7, 0xF7);
-	graphicsRender();
+	//graphicsRender();
 }
 
 void runnerUpdate() {

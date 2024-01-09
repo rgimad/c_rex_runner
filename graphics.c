@@ -27,7 +27,6 @@ void graphicsBlitAtlasImage(int atlasX, int atlasY, int destX, int destY, int w,
 		dest.y -= (dest.h / 2);
 	}
 	SDL_RenderCopy(renderer, graphicsSpriteAtlas, &src, &dest);
-	graphicsRender();
 }
 
 void graphicsFillBackground(unsigned r, unsigned g, unsigned b) {

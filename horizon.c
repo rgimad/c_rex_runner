@@ -120,7 +120,7 @@ bool horizonDuplicateObstacleCheck(ObstacleType nextObstacleType) {
 }
 
 void horizonReset() {
-    printf("horizonReset() !!\n");
+    // printf("horizonReset() !!\n");
     ulist_destroy(horizon.obstacles);
     horizon.obstacles = ulist_create();
     horizonLineReset();

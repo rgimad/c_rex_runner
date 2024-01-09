@@ -83,8 +83,8 @@ int main(int argc, char* args[]) {
 			}
 		}
 		runnerUpdate();
-		//graphicsRender();
-		SDL_Delay(50);
+		graphicsRender();
+		SDL_Delay(20);
 		/*
 		// clear the screen
 		SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);

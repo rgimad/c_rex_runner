@@ -53,6 +53,7 @@ void trexInit() {
 
 // Set the animation status
 void trexUpdate(int deltaTime, int opt_status) {
+	//printf("trex.status = %d\n", trex.status);
 	trex.timer += deltaTime;
 	// Update the status
 	if (opt_status != -1) {
@@ -64,33 +65,35 @@ void trexUpdate(int deltaTime, int opt_status) {
 			trex.animStartTime = getTimeStamp();
 			trexSetBlinkDelay();
 		}
-		// Game intro animation, T-rex moves in from the left.
-		if (trex.playingIntro && trex.xPos < TREX_START_X_POS) {
-			trex.xPos += (int)round((TREX_START_X_POS / TREX_INTRO_DURATION) * deltaTime);
-		}
+	}
+	// Game intro animation, T-rex moves in from the left.
+	if (trex.playingIntro && trex.xPos < TREX_START_X_POS) {
+		trex.xPos += (int)round((TREX_START_X_POS / TREX_INTRO_DURATION) * deltaTime);
+	}
 
-		if (trex.status == TREX_STATUS_WAITING) {
-			trexBlink(getTimeStamp());
-		}
-		else {
-			trexDraw(trex.currentAnimFrames.frames[trex.currentFrame], 0);
-		}
+	if (trex.status == TREX_STATUS_WAITING) {
+		trexBlink(getTimeStamp());
+	}
+	else {
+		// printf("trex.status = %d\n", trex.status);
+		trexDraw(trex.currentAnimFrames.frames[trex.currentFrame], 0);
+	}
 
-		// Update the frame position.
-		if (trex.timer >= trex.msPerFrame) {
-			trex.currentFrame = trex.currentFrame == trex.currentAnimFrames.frameCount - 1 ? 0 : trex.currentFrame + 1;
-			trex.timer = 0;
-		}
+	// Update the frame position.
+	if (trex.timer >= trex.msPerFrame) {
+		trex.currentFrame = trex.currentFrame == trex.currentAnimFrames.frameCount - 1 ? 0 : trex.currentFrame + 1;
+		trex.timer = 0;
+	}
 
-		// Speed drop becomes duck if the down key is still being pressed.
-		if (trex.speedDrop && trex.yPos == trex.groundYPos) {
-			trex.speedDrop = false;
-			trexSetDuck(true);
-		}
+	// Speed drop becomes duck if the down key is still being pressed.
+	if (trex.speedDrop && trex.yPos == trex.groundYPos) {
+		trex.speedDrop = false;
+		trexSetDuck(true);
 	}
 }
 
 void trexDraw(int x, int y) {
+	//printf("trexDraw();\n");
 	int sourceWidth = trex.ducking && trex.status != TREX_STATUS_CRASHED ? TREX_WIDTH_DUCK : TREX_WIDTH;
 	int sourceHeight = TREX_HEIGHT;
 	// Adjustments for sprite sheet position.
