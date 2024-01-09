@@ -61,7 +61,7 @@ void horizonUpdateObstacles(int deltaTime, double currentSpeed) {
     // Obstacles, move to Horizon layer
     Node* obNode = horizon.obstacles->head;
     while (obNode != NULL) {
-          Node* obNodeNext = obNode->next;
+        Node* obNodeNext = obNode->next;
         Obstacle* ob = obNode->data;
         obstacleUpdate(ob, deltaTime, currentSpeed);
         // Clean up existing obstacles

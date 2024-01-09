@@ -110,7 +110,7 @@ void ulist_remove_front(Ulist* list) {
         list->tail = NULL;
     }
 
-    free(node_to_remove); // BUG maybe double free, sometimes segfault here. stacktrace from horizonUpdateObstacles
+    free(node_to_remove);
     list->size--;
 }
 
