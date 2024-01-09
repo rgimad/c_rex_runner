@@ -77,7 +77,7 @@ void obstacleInit(Obstacle* ob, ObstacleTypeConfig *otc, int dim_width, double g
 
 	ob->followingObstacleCreated = false;
 
-	if (ob->size > 1 && ob->typeConfig.multipleSpeed > speed) {
+	if (ob->size > 1 && ob->typeConfig.multipleSpeed > speed) { // NOTE what it this?
 		ob->size = 1;
 	}
 	ob->width = ob->typeConfig.width * ob->size;
@@ -119,7 +119,7 @@ void obstacleDraw(const Obstacle *ob) {
 	if (ob->currentFrame > 0) {
 		sourceX += sourceWidth*ob->currentFrame;
 	}
-	graphicsBlitAtlasImage(sourceX, obstacleSpritePosY[ob->typeConfig.type], ob->xPos, ob->yPos, sourceWidth*ob->size, sourceHeight*ob->size, false);
+	graphicsBlitAtlasImage(sourceX, obstacleSpritePosY[ob->typeConfig.type], ob->xPos, ob->yPos, sourceWidth*ob->size, sourceHeight, false);
 }
 
 void obstacleUpdate(Obstacle *ob, int deltaTime, double speed) {
