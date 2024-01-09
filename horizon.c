@@ -25,8 +25,10 @@ void horizonUpdate(int deltaTime, double currentSpeed, bool updateObstacles, boo
 }
 
 void horizonUpdateClouds(int deltaTime, double speed) {
+    //printf("horizonUpdateClouds()\n");
     double cloudSpeed = HORIZON_BG_CLOUD_SPEED / 1000 * deltaTime * speed;
     int numClouds = ulist_size(horizon.clouds);
+    //printf("horizonUpdateClouds() %d\n", numClouds);
 
     if (numClouds) {
         Node *cloudNode = horizon.clouds->tail;
@@ -59,13 +61,16 @@ void horizonUpdateObstacles(int deltaTime, double currentSpeed) {
     // Obstacles, move to Horizon layer
     Node* obNode = horizon.obstacles->head;
     while (obNode != NULL) {
-        Node* obNodeNext = obNode->next;
+          Node* obNodeNext = obNode->next;
         Obstacle* ob = obNode->data;
         obstacleUpdate(ob, deltaTime, currentSpeed);
         // Clean up existing obstacles
         if (ob->remove) {
             //ulist_remove(horizon.obstacles, obNode);
+            //ulist_print(horizon.obstacles);
             ulist_remove_front(horizon.obstacles);
+            //ulist_print(horizon.obstacles);
+            //puts("");
         }
         obNode = obNodeNext;
     }
@@ -115,7 +120,9 @@ bool horizonDuplicateObstacleCheck(ObstacleType nextObstacleType) {
 }
 
 void horizonReset() {
+    printf("horizonReset() !!\n");
     ulist_destroy(horizon.obstacles);
+    horizon.obstacles = ulist_create();
     horizonLineReset();
 }
 
@@ -126,6 +133,8 @@ void horizonReset() {
 void horizonAddCloud() {
     Cloud* c = malloc(sizeof(Cloud));
     cloudInit(c, horizon.dim_width);
-    ulist_push_back(horizon.obstacles, c);
+    //printf("horizonAddCloud() %d -> ", ulist_size(horizon.obstacles));
+    ulist_push_back(horizon.clouds, c);
+    //printf("%d\n", ulist_size(horizon.obstacles));
 }
 

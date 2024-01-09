@@ -48,7 +48,7 @@ void trexInit() {
 	trex.playingIntro = false;
 
 	trexDraw(0, 0);
-	// trexUpdate(0, TREX_STATUS_WAITING); // TODO
+	trexUpdate(0, TREX_STATUS_WAITING);
 }
 
 // Set the animation status

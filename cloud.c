@@ -7,7 +7,7 @@ void cloudInit(Cloud* cloud, int w) {
 	cloud->remove = false;
 	cloud->cloudGap = getRandomNumber(CLOUD_MIN_GAP, CLOUD_MAX_GAP);
 
-	cloud->yPos = getRandomNumber(CLOUD_MAX_SKY_LEVEL, CLOUD_MIN_SKY_LEVEL); // TODO why swapped
+	cloud->yPos = getRandomNumber(CLOUD_MAX_SKY_LEVEL, CLOUD_MIN_SKY_LEVEL); // NOTE why swapped
 	cloudDraw(cloud);
 }
 
@@ -16,6 +16,7 @@ void cloudDraw(const Cloud* cloud) {
 }
 
 void cloudUpdate(Cloud* cloud, double speed) {
+	// printf("cloudUpdate(., %f)\n", speed);
 	if (!cloud->remove) {
 		cloud->xPos -= (int)ceil(speed);
 		cloudDraw(cloud);
