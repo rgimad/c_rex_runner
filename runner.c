@@ -215,7 +215,7 @@ void runnerRestart() {
 	runner.playing = true;
 	runner.crashed = false;
 	runner.distanceRan = 0;
-	//runnerSetSpeed(RUNNER_SPEED); // need for mobile
+	runner.currentSpeed = RUNNER_SPEED;
 	runner.time = getTimeStamp();
 	runnerClearCanvas();
 	distanceMeterReset(runner.highestScore);
