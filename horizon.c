@@ -110,12 +110,15 @@ void horizonAddNewObstacle(double currentSpeed) {
 }
 
 bool horizonDuplicateObstacleCheck(ObstacleType nextObstacleType) {
+    //printf("horizonDuplicateObstacleCheck(%d)\n", nextObstacleType);
     int duplicateCount = 0;
     Node* ohNode = horizon.obstacleHistory->head;
     while (ohNode != NULL) {
+        //printf("%d\n", *(int*)ohNode->data);
         duplicateCount = *(int*)ohNode->data == nextObstacleType ? duplicateCount + 1 : 0;
         ohNode = ohNode->next;
     }
+    //printf("duplicateCount = %d\n\n", duplicateCount);
     return duplicateCount >= RUNNER_MAX_OBSTACLE_DUPLICATION;
 }
 

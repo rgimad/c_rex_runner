@@ -120,7 +120,7 @@ void ulist_splice(Ulist* list, int n) {
     }
     int count = list->size - n;
     while (count > 0) {
-        ulist_remove_front(list);
+        ulist_remove_back(list);
         count--;
     }
 }
