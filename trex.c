@@ -186,11 +186,17 @@ void trexSetSpeedDrop() {
 }
 
 void trexSetDuck(bool isDucking) {
-	if (isDucking && trex.status != TREX_STATUS_DUCKING) {
-		trexUpdate(0, TREX_STATUS_DUCKING);
-		trex.ducking = true;
+	//printf("trexSetDuck(%d) trex.status was %d\n", isDucking, trex.status);
+	// NOTE: why this /**/ fix required to normal work?? why doesnt work like in original.
+	if (isDucking/* && trex.status != TREX_STATUS_DUCKING*/) {
+		//printf("trexUpdate(0, 4);\n\n");
+		if (trex.status != TREX_STATUS_DUCKING) {
+			trexUpdate(0, TREX_STATUS_DUCKING);
+			trex.ducking = true;
+		}
 	}
-	else if (trex.status == TREX_STATUS_DUCKING) {
+	else /*if (trex.status == TREX_STATUS_DUCKING)*/ {
+		//printf("trexUpdate(0, 1);\n\n");
 		trexUpdate(0, TREX_STATUS_RUNNING);
 		trex.ducking = false;
 	}
