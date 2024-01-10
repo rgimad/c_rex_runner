@@ -67,8 +67,14 @@ void trexUpdate(int deltaTime, int opt_status) {
 		}
 	}
 	// Game intro animation, T-rex moves in from the left.
-	if (trex.playingIntro && trex.xPos < TREX_START_X_POS) {
-		trex.xPos += (int)round((TREX_START_X_POS / TREX_INTRO_DURATION) * deltaTime);
+	if (trex.playingIntro) {
+		if (trex.xPos < TREX_START_X_POS) {
+			//printf("trex.xPos = %d\n", trex.xPos);
+			trex.xPos += (int)round(((double)TREX_START_X_POS / TREX_INTRO_DURATION) * deltaTime);
+		}
+		else {
+			runnerStartGame();
+		}
 	}
 
 	if (trex.status == TREX_STATUS_WAITING) {

@@ -108,6 +108,7 @@ void runnerUpdate() {
 
 		// First jump triggers the intro.
 		if (trex.jumpCount == 1 && !runner.playingIntro) {
+			//printf("trex.jumpCount = %d\n", trex.jumpCount);
 			runnerPlayIntro();
 		}
 
@@ -227,12 +228,13 @@ void runnerRestart() {
 }
 
 void runnerPlayIntro() {
+	//printf("runnerPlayIntro()\n");
 	if (!runner.activated && !runner.crashed) {
 		runner.playingIntro = true;
 		trex.playingIntro = true;
 		// ...
 
-		runnerStartGame();
+		//runnerStartGame();
 
 		runner.playing = true;
 		runner.activated = true;
