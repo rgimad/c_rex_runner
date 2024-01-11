@@ -1,8 +1,21 @@
 #include "graphics.h"
+#include "sprites.h"
 
 static SDL_Window* window;
 static SDL_Renderer* renderer;
 static SDL_Texture* graphicsSpriteAtlas;
+
+static SDL_Texture* LoadTextureFromMemory(const void* mem, int size) {
+	SDL_RWops* rwops = SDL_RWFromConstMem(mem, size);
+	SDL_Surface* surface = IMG_Load_RW(rwops, 1);
+	if (!surface) {
+		printf("Error: %s\n", SDL_GetError());
+		exit(-1);
+	}
+	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+	return texture;
+}
 
 void graphicsInit() {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -16,8 +29,8 @@ void graphicsInit() {
 	}
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-	graphicsSpriteAtlas = IMG_LoadTexture(renderer, "assets/sprites100.png");	
-
+	//graphicsSpriteAtlas = IMG_LoadTexture(renderer, "assets/sprites100.png");	
+	graphicsSpriteAtlas = LoadTextureFromMemory(sprites100, sizeof(sprites100));
 }
 
 void graphicsBlitAtlasImage(int atlasX, int atlasY, int destX, int destY, int w, int h, bool center) {
@@ -36,6 +49,10 @@ void graphicsFillBackground(unsigned r, unsigned g, unsigned b) {
 
 void graphicsRender() {
 	SDL_RenderPresent(renderer);
+}
+
+void graphicsDelay(int ms) {
+	SDL_Delay(ms);
 }
 
 

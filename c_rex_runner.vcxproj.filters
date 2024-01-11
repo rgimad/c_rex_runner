@@ -92,5 +92,8 @@
     <ClInclude Include="game_over_panel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="sprites.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

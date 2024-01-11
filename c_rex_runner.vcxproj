@@ -177,6 +177,7 @@
     <ClInclude Include="obstacle.h" />
     <ClInclude Include="runner.h" />
     <ClInclude Include="graphics.h" />
+    <ClInclude Include="sprites.h" />
     <ClInclude Include="trex.h" />
     <ClInclude Include="ulist.h" />
   </ItemGroup>
