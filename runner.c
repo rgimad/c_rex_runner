@@ -8,14 +8,13 @@ void runnerInit() {
 	runner.time = 0;
 	runner.msPerFrame = 1000 / FPS;
 	runner.currentSpeed = RUNNER_SPEED;
-	//runner.obstacles = ulist_create();
 	runner.activated = false;
 	runner.playing = false;
 	runner.crashed = false;
 	runner.paused = false;
 	runner.inverted = false;
 	runner.playingIntro = false;
-	//runner.isRunning = true;
+	runner.isRunning = false; // is running or game stopped
 	runner.invertTimer = 0;
 	runner.playCount = 0;
 	// TODO sound
@@ -59,7 +58,7 @@ void runnerOnKeyDown(int key) {
 			// Speed drop, activated only when jump key is not pressed.
 			trexSetSpeedDrop();
 		}
-		else {
+		else if (!trex.jumping && !trex.ducking) {
 			// Duck
 			trexSetDuck(true);
 		}
@@ -67,7 +66,7 @@ void runnerOnKeyDown(int key) {
 }
 
 void runnerOnKeyUp(int key) {
-	if (/*runner.isRunning &&*/ (key == RUNNER_KEYCODE_JUMP_1 || key == RUNNER_KEYCODE_JUMP_2)) {
+	if (runner.isRunning && (key == RUNNER_KEYCODE_JUMP_1 || key == RUNNER_KEYCODE_JUMP_2)) {
 		trexEndJump();
 	}
 	else if (key == RUNNER_KEYCODE_DUCK) {
@@ -77,7 +76,8 @@ void runnerOnKeyUp(int key) {
 	else if (runner.crashed) {
 		// Check that enough time has elapsed before allowing jump key to restart.
 		int deltaTime = getTimeStamp() - runner.time;
-		if (key == RUNNER_KEYCODE_RESTART || (deltaTime >= RUNNER_GAMEOVER_CLEAR_TIME && (key == RUNNER_KEYCODE_JUMP_1 || key == RUNNER_KEYCODE_JUMP_2))) {
+		//printf("deltaTime = %d\n", deltaTime);
+		if (key == RUNNER_KEYCODE_RESTART || (/*deltaTime >= RUNNER_GAMEOVER_CLEAR_TIME &&*/ (key == RUNNER_KEYCODE_JUMP_1 || key == RUNNER_KEYCODE_JUMP_2))) {
 			runnerRestart();
 		}
 	}
@@ -195,7 +195,7 @@ void runnerGameOver() {
 void runnerStop() {
 	runner.playing = false;
 	runner.paused = true;
-	//runner.isRunning = false;
+	runner.isRunning = false;
 }
 
 void runnerPlay() {
@@ -209,22 +209,23 @@ void runnerPlay() {
 }
 
 void runnerRestart() {
-	// if (!this.raqId) {
-	runner.playCount++;
-	runner.runningTime = 0;
-	runner.playing = true;
-	runner.crashed = false;
-	runner.distanceRan = 0;
-	runner.currentSpeed = RUNNER_SPEED;
-	runner.time = getTimeStamp();
-	runnerClearCanvas();
-	distanceMeterReset(runner.highestScore);
-	horizonReset();
-	trexReset();
-	//this.playSound(this.soundFx.BUTTON_PRESS);
-	//this.invert(true);
-	runnerUpdate();
-	// }
+	if (!runner.isRunning) {
+		runner.playCount++;
+		runner.runningTime = 0;
+		runner.playing = true;
+		runner.crashed = false;
+		runner.distanceRan = 0;
+		runner.currentSpeed = RUNNER_SPEED;
+		runner.time = getTimeStamp();
+		runnerClearCanvas();
+		distanceMeterReset(runner.highestScore);
+		horizonReset();
+		trexReset();
+		//this.playSound(this.soundFx.BUTTON_PRESS);
+		//this.invert(true);
+		runner.isRunning = true;
+		runnerUpdate();
+	}
 }
 
 void runnerPlayIntro() {
@@ -232,10 +233,6 @@ void runnerPlayIntro() {
 	if (!runner.activated && !runner.crashed) {
 		runner.playingIntro = true;
 		trex.playingIntro = true;
-		// ...
-
-		//runnerStartGame();
-
 		runner.playing = true;
 		runner.activated = true;
 	}
@@ -249,6 +246,7 @@ void runnerStartGame() {
 	runner.playingIntro = false;
 	trex.playingIntro = false;
 	runner.playCount++;
+	runner.isRunning = true;
 }
 
 CollisionBox createAdjustedCollisionBox(CollisionBox box, CollisionBox adjustment) {

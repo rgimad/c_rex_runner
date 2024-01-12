@@ -125,6 +125,7 @@ void trexSetBlinkDelay() {
 }
 
 void trexBlink(int time) {
+	//printf("trexBlink(%d)\n", time);
 	int deltaTime = time - trex.animStartTime;
 	if (deltaTime >= trex.blinkDelay) {
 		trexDraw(trex.currentAnimFrames.frames[trex.currentFrame], 0);
@@ -192,17 +193,11 @@ void trexSetSpeedDrop() {
 }
 
 void trexSetDuck(bool isDucking) {
-	//printf("trexSetDuck(%d) trex.status was %d\n", isDucking, trex.status);
-	// NOTE: why this /**/ fix required to normal work?? why doesnt work like in original.
-	if (isDucking/* && trex.status != TREX_STATUS_DUCKING*/) {
-		//printf("trexUpdate(0, 4);\n\n");
-		if (trex.status != TREX_STATUS_DUCKING) {
-			trexUpdate(0, TREX_STATUS_DUCKING);
-			trex.ducking = true;
-		}
+	if (isDucking && trex.status != TREX_STATUS_DUCKING) {
+		trexUpdate(0, TREX_STATUS_DUCKING);
+		trex.ducking = true;
 	}
-	else /*if (trex.status == TREX_STATUS_DUCKING)*/ {
-		//printf("trexUpdate(0, 1);\n\n");
+	else if (trex.status == TREX_STATUS_DUCKING) {
 		trexUpdate(0, TREX_STATUS_RUNNING);
 		trex.ducking = false;
 	}

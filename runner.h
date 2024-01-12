@@ -54,7 +54,7 @@ typedef struct {
 	bool inverted;
 	bool invertTimer;
 	bool playingIntro;
-	//bool isRunning;
+	bool isRunning;
 	// resizeTimerId_
 	int playCount;
 	// soundFx
