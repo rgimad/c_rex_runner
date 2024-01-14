@@ -6,7 +6,7 @@ void horizonLineInit() {
 	horizonLine.width = HORIZON_LINE_WIDTH;
 	horizonLine.height = HORIZON_LINE_HEIGHT;
 	horizonLine.sourceXPos[0] = ATLAS_HORIZON_X;
-	horizonLine.sourceXPos[1] = ATLAS_HORIZON_Y;
+	horizonLine.sourceXPos[1] = ATLAS_HORIZON_X + horizonLine.width;
 	horizonLine.bumpThreshold = 0.5;
 	horizonLine.xPos[0] = 0;
 	horizonLine.xPos[1] = horizonLine.width;
@@ -21,7 +21,7 @@ void horizonLineDraw() {
 }
 
 int horizonLineGetRandomType() {
-	return (double)rand() / RAND_MAX > horizonLine.bumpThreshold ? DM_WIDTH : 0;
+	return (double)rand() / RAND_MAX > horizonLine.bumpThreshold ? horizonLine.width : 0;
 }
 
 void horizonLineUpdateXPos(int pos, int increment) {
@@ -29,11 +29,11 @@ void horizonLineUpdateXPos(int pos, int increment) {
 	int line2 = pos == 0 ? 1 : 0;
 
 	horizonLine.xPos[line1] -= increment;
-	horizonLine.xPos[line2] = horizonLine.xPos[line1] + DM_WIDTH;
+	horizonLine.xPos[line2] = horizonLine.xPos[line1] + horizonLine.width;
 
-	if (horizonLine.xPos[line1] <= -DM_WIDTH) {
-		horizonLine.xPos[line1] += DM_WIDTH * 2;
-		horizonLine.xPos[line2] = horizonLine.xPos[line1] - DM_WIDTH;
+	if (horizonLine.xPos[line1] <= -horizonLine.width) {
+		horizonLine.xPos[line1] += horizonLine.width * 2;
+		horizonLine.xPos[line2] = horizonLine.xPos[line1] - horizonLine.width;
 		horizonLine.sourceXPos[line1] = horizonLineGetRandomType() + ATLAS_HORIZON_X;
 	}
 }
@@ -51,5 +51,5 @@ void horizonLineUpdate(int deltaTime, double speed) {
 
 void horizonLineReset() {
 	horizonLine.xPos[0] = 0;
-	horizonLine.xPos[1] = DM_WIDTH;
+	horizonLine.xPos[1] = horizonLine.width;
 }

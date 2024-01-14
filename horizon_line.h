@@ -5,7 +5,6 @@
 #include <stdbool.h>
 #include "config.h"
 #include "graphics.h"
-#include "distance_meter.h"
 
 #define HORIZON_LINE_WIDTH 600
 #define HORIZON_LINE_HEIGHT 12
