@@ -70,7 +70,7 @@ void trexUpdate(int deltaTime, int opt_status) {
 	if (trex.playingIntro) {
 		if (trex.xPos < TREX_START_X_POS) {
 			//printf("trex.xPos = %d\n", trex.xPos);
-			trex.xPos += (int)round(((double)TREX_START_X_POS / TREX_INTRO_DURATION) * deltaTime);
+			trex.xPos += max((int)round(((double)TREX_START_X_POS / TREX_INTRO_DURATION) * deltaTime), 1);
 		}
 		else {
 			runnerStartGame();

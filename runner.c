@@ -95,6 +95,7 @@ void runnerClearCanvas() {
 void runnerUpdate() {
 	int now = getTimeStamp();
 	int deltaTime = now - (runner.time ? runner.time : 0);
+	//printf("runnerUpdate() deltaTime = %d\n", deltaTime);
 	runner.time = now;
 	if (runner.playing) {
 		runnerClearCanvas();

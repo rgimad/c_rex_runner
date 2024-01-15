@@ -47,7 +47,7 @@ int main(int argc, char* args[]) {
 			}
 		}
 		runnerUpdate();
-		graphicsDelay(15);
+		graphicsDelay(10);
 	}
 
 	graphicsDestroy();
