@@ -93,11 +93,15 @@ void runnerClearCanvas() {
 }
 
 void runnerUpdate() {
+	//printf("runner update start\n");
+	//runner.updatePending = false;
 	int now = getTimeStamp();
+	//printf("now = %d\n", now);
 	int deltaTime = now - (runner.time ? runner.time : 0);
 	//printf("runnerUpdate() deltaTime = %d\n", deltaTime);
 	runner.time = now;
 	if (runner.playing) {
+		//printf("runnerUpdate() %d\n", getTimeStamp());
 		runnerClearCanvas();
 
 		if (trex.jumping) {
@@ -173,6 +177,7 @@ void runnerUpdate() {
 	}
 	
 	graphicsRender(); // blit all drawn to the screen
+	//printf("runner update end\n\n");
 }
 
 void runnerGameOver() {

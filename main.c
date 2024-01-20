@@ -29,6 +29,8 @@ int main(int argc, char* args[]) {
 	SDL_Event event;
 	bool quit = false;
 	while (quit == false) {
+		int frameStartTime = getTimeStamp();
+		//printf("frameStartTime = %d\n", frameStartTime);
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
 			case SDL_QUIT:
@@ -47,7 +49,15 @@ int main(int argc, char* args[]) {
 			}
 		}
 		runnerUpdate();
-		graphicsDelay(10);
+
+		int frameTime = getTimeStamp() - frameStartTime;
+#define FRAME_TIME 16
+		if (frameTime < FRAME_TIME) { // 1000ms/60frames = 16.(6)
+			//printf("frameTime = %d\n", frameTime);
+			graphicsDelay(FRAME_TIME - frameTime);
+		}
+
+		//graphicsDelay(10);
 	}
 
 	graphicsDestroy();

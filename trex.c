@@ -14,11 +14,11 @@ CollisionBox trexRunningCollisionBox[6] =
 };
 
 TrexAnimFramesEntry trexAnimFrames[5] = {
-	{.frameCount = 2, .frames = {44, 0}, .msPerFrame = 1000/3},
-	{.frameCount = 2, .frames = {88, 132}, .msPerFrame = 1000/12},
-	{.frameCount = 1, .frames = {220}, .msPerFrame = 1000/60},
-	{.frameCount = 1, .frames = {0}, .msPerFrame = 1000/60},
-	{.frameCount = 2, .frames = {264, 323}, .msPerFrame = 1000/8}
+	{.frameCount = 2, .frames = {44, 0}, .msPerFrame = 1000./3},
+	{.frameCount = 2, .frames = {88, 132}, .msPerFrame = 1000./12},
+	{.frameCount = 1, .frames = {220}, .msPerFrame = 1000./60},
+	{.frameCount = 1, .frames = {0}, .msPerFrame = 1000./60},
+	{.frameCount = 2, .frames = {264, 323}, .msPerFrame = 1000./8}
 };
 
 // T - rex player initaliser
@@ -31,7 +31,7 @@ void trexInit() {
 	trex.blinkCount = 0;
 	trex.animStartTime = 0;
 	trex.timer = 0;
-	trex.msPerFrame = 1000 / FPS;
+	trex.msPerFrame = 1000. / FPS;
 	trex.status = TREX_STATUS_WAITING;
 
 	trex.jumping = false;

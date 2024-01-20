@@ -124,7 +124,7 @@ void obstacleDraw(const Obstacle *ob) {
 
 void obstacleUpdate(Obstacle *ob, int deltaTime, double speed) {
 	if (!ob->remove) {
-		ob->xPos -= floor(((speed + ob->typeConfig.speedOffset)*FPS/1000)*deltaTime);
+		ob->xPos -= floor(((speed + ob->typeConfig.speedOffset)*FPS/1000.)*deltaTime);
 	}
 	// Update frames
 	if (ob->typeConfig.numFrames > 1) {

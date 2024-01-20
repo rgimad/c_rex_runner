@@ -27,6 +27,7 @@ void graphicsInit() {
 		printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 		return -1;
 	}
+	SDL_SetHint(SDL_HINT_RENDER_VSYNC, "1"); // prevent jerking
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 	//graphicsSpriteAtlas = IMG_LoadTexture(renderer, "assets/sprites100.png");	

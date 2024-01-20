@@ -58,6 +58,7 @@ void horizonUpdateClouds(int deltaTime, double speed) {
 }
 
 void horizonUpdateObstacles(int deltaTime, double currentSpeed) {
+    //printf("horizonUpdateObstacles()\n");
     // Obstacles, move to Horizon layer
     Node* obNode = horizon.obstacles->head;
     while (obNode != NULL) {
