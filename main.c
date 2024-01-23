@@ -48,16 +48,16 @@ int main(int argc, char* args[]) {
 				break;
 			}
 		}
-		runnerUpdate();
+		if (runner.nextUpdateScheduled) {
+			runnerUpdate();
+		}
 
 		int frameTime = getTimeStamp() - frameStartTime;
 #define FRAME_TIME 16
 		if (frameTime < FRAME_TIME) { // 1000ms/60frames = 16.(6)
-			//printf("frameTime = %d\n", frameTime);
+			// printf("frameTime = %d\n", frameTime);
 			graphicsDelay(FRAME_TIME - frameTime);
 		}
-
-		//graphicsDelay(10);
 	}
 
 	graphicsDestroy();

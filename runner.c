@@ -17,6 +17,7 @@ void runnerInit() {
 	runner.isRunning = false; // is running or game stopped
 	runner.invertTimer = 0;
 	runner.playCount = 0;
+	runner.nextUpdateScheduled = false;
 	// TODO sound
 	// runnerLoadImages();
 	runnerAdjustDimensions();
@@ -45,7 +46,7 @@ void runnerOnKeyDown(int key) {
 		if (!runner.playing) {
 			// this.loadSounds(); // TODO
 			runner.playing = true;
-			runnerUpdate();
+			runnerUpdate(); // TODO after this maybe skip next runnerUpdate in main loop (use flag)? because now on very first jump entire trex body twinkle for like half sec
 		}
 		//  Play sound effect and jump on starting the game for the first time.
 		if (!trex.jumping && !trex.ducking) {
@@ -76,8 +77,8 @@ void runnerOnKeyUp(int key) {
 	else if (runner.crashed) {
 		// Check that enough time has elapsed before allowing jump key to restart.
 		int deltaTime = getTimeStamp() - runner.time;
-		//printf("deltaTime = %d\n", deltaTime);
-		if (key == RUNNER_KEYCODE_RESTART || (/*deltaTime >= RUNNER_GAMEOVER_CLEAR_TIME &&*/ (key == RUNNER_KEYCODE_JUMP_1 || key == RUNNER_KEYCODE_JUMP_2))) {
+		//printf(".deltaTime = %d\n", deltaTime);
+		if (key == RUNNER_KEYCODE_RESTART || (deltaTime >= RUNNER_GAMEOVER_CLEAR_TIME && (key == RUNNER_KEYCODE_JUMP_1 || key == RUNNER_KEYCODE_JUMP_2))) {
 			runnerRestart();
 		}
 	}
@@ -93,7 +94,7 @@ void runnerClearCanvas() {
 }
 
 void runnerUpdate() {
-	//printf("runner update start\n");
+	//printf("runnerUpdate() runner.playing = %d\n", runner.playing);
 	//runner.updatePending = false;
 	int now = getTimeStamp();
 	//printf("now = %d\n", now);
@@ -171,14 +172,23 @@ void runnerUpdate() {
 		}*/
 	}
 
+	runner.nextUpdateScheduled = false;//
 	if (runner.playing || (!runner.activated && trex.blinkCount < RUNNER_MAX_BLINK_COUNT)) {
 		trexUpdate(deltaTime, -1);
-		// this.scheduleNextUpdate();
+		runnerScheduleNextUpdate();
 	}
 	
 	graphicsRender(); // blit all drawn to the screen
 	//printf("runner update end\n\n");
 }
+
+void runnerScheduleNextUpdate() {
+	runner.nextUpdateScheduled = true;
+}
+
+//void runnerUnscheduleNextUpdate() {
+//	runner.nextUpdateScheduled = false;
+//}
 
 void runnerGameOver() {
 	// this.playSound(this.soundFx.HIT); // TODO

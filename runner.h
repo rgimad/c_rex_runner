@@ -61,6 +61,7 @@ typedef struct {
 	// audioContext
 	// images
 	// imagesLoaded
+	bool nextUpdateScheduled;
 } Runner;
 
 extern Runner runner;
@@ -80,5 +81,8 @@ void runnerGameOver();
 void runnerStop();
 void runnerPlay();
 void runnerRestart();
+
+void runnerScheduleNextUpdate();
+//void runnerUnscheduleNextUpdate();
 
 bool runnerCheckForCollision(const Obstacle *obstacle);
