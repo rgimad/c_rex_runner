@@ -18,6 +18,7 @@ void runnerInit() {
 	runner.invertTimer = 0;
 	runner.playCount = 0;
 	runner.nextUpdateScheduled = false;
+	runner.skipUpdateNow = false;
 	// TODO sound
 	// runnerLoadImages();
 	runnerAdjustDimensions();
@@ -46,7 +47,10 @@ void runnerOnKeyDown(int key) {
 		if (!runner.playing) {
 			// this.loadSounds(); // TODO
 			runner.playing = true;
-			runnerUpdate(); // TODO after this maybe skip next runnerUpdate in main loop (use flag)? because now on very first jump entire trex body twinkle for like half sec
+			//printf("first jump! %u\n", getTimeStamp());
+			runnerUpdate();
+			runner.nextUpdateScheduled = false;
+			runner.skipUpdateNow = true;
 		}
 		//  Play sound effect and jump on starting the game for the first time.
 		if (!trex.jumping && !trex.ducking) {
@@ -175,20 +179,12 @@ void runnerUpdate() {
 	runner.nextUpdateScheduled = false;//
 	if (runner.playing || (!runner.activated && trex.blinkCount < RUNNER_MAX_BLINK_COUNT)) {
 		trexUpdate(deltaTime, -1);
-		runnerScheduleNextUpdate();
+		runner.nextUpdateScheduled = true;
 	}
 	
 	graphicsRender(); // blit all drawn to the screen
 	//printf("runner update end\n\n");
 }
-
-void runnerScheduleNextUpdate() {
-	runner.nextUpdateScheduled = true;
-}
-
-//void runnerUnscheduleNextUpdate() {
-//	runner.nextUpdateScheduled = false;
-//}
 
 void runnerGameOver() {
 	// this.playSound(this.soundFx.HIT); // TODO

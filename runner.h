@@ -62,6 +62,7 @@ typedef struct {
 	// images
 	// imagesLoaded
 	bool nextUpdateScheduled;
+	bool skipUpdateNow;
 } Runner;
 
 extern Runner runner;
@@ -81,8 +82,5 @@ void runnerGameOver();
 void runnerStop();
 void runnerPlay();
 void runnerRestart();
-
-void runnerScheduleNextUpdate();
-//void runnerUnscheduleNextUpdate();
 
 bool runnerCheckForCollision(const Obstacle *obstacle);

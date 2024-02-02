@@ -49,7 +49,15 @@ int main(int argc, char* args[]) {
 			}
 		}
 		if (runner.nextUpdateScheduled) {
+			//printf("runner update! %u\n", getTimeStamp());
 			runnerUpdate();
+		}
+		else {
+			if (runner.skipUpdateNow) {
+				//printf("Skipped one update\n");
+				runner.nextUpdateScheduled = true;
+				runner.skipUpdateNow = false;
+			}
 		}
 
 		int frameTime = getTimeStamp() - frameStartTime;
