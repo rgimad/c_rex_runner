@@ -1,13 +1,21 @@
 #include "graphics.h"
 #include "sprites.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 static SDL_Window* window;
 static SDL_Renderer* renderer;
 static SDL_Texture* graphicsSpriteAtlas;
 
 static SDL_Texture* LoadTextureFromMemory(const void* mem, int size) {
-	SDL_RWops* rwops = SDL_RWFromConstMem(mem, size);
-	SDL_Surface* surface = IMG_Load_RW(rwops, 1);
+	int width, height, channels, format;
+	int inforet = stbi_info_from_memory(mem, size, &width, &height, &format);
+	// no alpha => use RGB, else use RGBA
+	int bppToUse = (format == STBI_grey || format == STBI_rgb) ? STBI_rgb : STBI_rgb_alpha;
+
+	stbi_uc *imgdata = stbi_load_from_memory(mem, size, &width, &height, &format, bppToUse);
+	SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormatFrom(imgdata, width, height, bppToUse * 8, bppToUse * width, (bppToUse == STBI_rgb) ? SDL_PIXELFORMAT_RGB24 : SDL_PIXELFORMAT_RGBA32);
 	if (!surface) {
 		printf("Error: %s\n", SDL_GetError());
 		exit(-1);
